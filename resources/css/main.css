@@ -10,3 +10,14 @@
 }
 
 .profile {}
+
+
+/*override material ui*/
+
+a.MuiButton-text:hover {
+    color: white !important;
+}
+
+a {
+    text-decoration: none !important;
+}

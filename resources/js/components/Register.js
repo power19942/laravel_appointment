@@ -17,16 +17,16 @@ const Register = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            var res = await axios.post('/api/register', { username, email, password, rememberMe })
+            var res = await axios.post('/api/register', {
+                name: username,
+                email,
+                password,
+                password_confirmation: passwordConfirm
+            })
             localStorage.setItem('user', JSON.stringify(res.data.data.info))
             localStorage.setItem('token', JSON.stringify(res.data.data.token))
-            addUser(res.data.data.info)
-            // toast.success(`Welcome ${res.data.data.info.name}`, {
-            //     position: toast.POSITION.TOP_RIGHT,
-
-            // })
+            addUser(res.data.data.info, true)
             setLoading(false)
-
             history.push("/")
 
 
@@ -53,7 +53,7 @@ const Register = () => {
                                     Username </label>
 
                                 <div className="col-md-6">
-                                    <input id="username" type="email" value={username}
+                                    <input id="username" type="text" value={username}
                                         className="form-control" name="username"
                                         required autoFocus onChange={(e) => setUsername(e.target.value)} />
                                 </div>

@@ -7,8 +7,45 @@ import moment from 'moment'
 import { UserContext } from './../context/UserContext';
 import { toast, ToastContainer } from 'react-toastify'
 
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const ExpertDetails = () => {
+    const classes = useStyles();
+    const [state, setState] = React.useState({
+        age: '',
+        name: 'hai',
+    });
+    const handleChange = (event) => {
+        const name = event.target.name;
+        setState({
+            ...state,
+            [name]: event.target.value,
+        });
+    };
     const { user, addUser } = useContext(UserContext)
     let { id } = useParams()
     let { experts } = useContext(ExpertContext)
@@ -17,7 +54,11 @@ const ExpertDetails = () => {
     const [sessionTime, setSessionTime] = useState('0')
     const [sessionDate, setSessionDate] = useState(new Date())
     const [error, setError] = useState({})
+    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
 
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
     useEffect(() => {
         setCurrentExpert(experts.filter(ex => ex.id == id)[0])
         if (user != null && user.auth) {
@@ -72,41 +113,64 @@ const ExpertDetails = () => {
                         <p>{currentExpert.country}</p>
                         <p>{currentExpert.expert_start_time} -> {currentExpert.expert_end_time}</p>
                         <p>{user.info.timezone}</p>
-                        <Calendar onChange={(date) => setSessionDate(date)} tileDisabled={({ activeStartDate, date, view }) => {
+                        {/* <Calendar onChange={(date) => setSessionDate(date)} tileDisabled={({ activeStartDate, date, view }) => {
                             date.getDay() === 5
                             // console.dir(date)
-                        }} />
+                        }} /> */}
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container justify="space-around">
 
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    id="date-picker-dialog"
+                                    label="Appointment Date"
+                                    format="MM/dd/yyyy"
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                                <KeyboardTimePicker
+                                    margin="normal"
+                                    id="time-picker"
+                                    label="Appointment Time"
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change time',
+                                    }}
+                                />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
 
-                        <div className="form-group row">
-                            <label className="col-md-4 col-form-label text-md-right">
-                                Duration </label>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+                            <Select
+                                native
+                                value={sessionTime}
+                                onChange={(e) => setSessionTime(e.target.value)}
+                                inputProps={{
+                                    name: 'Session duration',
+                                    id: 'age-native-simple',
+                                }}
+                            >
+                                <option aria-label="None" value="" />
+                                <option value={15}>15 minuts</option>
+                                <option value={30}>30 minuts</option>
+                                <option value={45}>45 minuts</option>
+                                <option value={60}>1 hour</option>
+                            </Select>
+                        </FormControl>
 
-                            <div className="col-md-8">
-                                <select onChange={(e) => setSessionTime(e.target.value)} className='form-control' name="" id="">
-                                    <option value="0">Session duration</option>
-                                    <option value="15">15 minuts</option>
-                                    <option value="30">30 minuts</option>
-                                    <option value="45">45 minuts</option>
-                                    <option value="60">1 hour</option>
-                                </select>
-                                {error.sessionTime && <strong className='text-danger'>Required</strong>
-                                }
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="name" className="col-md-4 col-form-label text-md-right">
-                                name </label>
+                        <TextField value={name}
+                            onChange={val => setName(val.target.value)} disabled={!user.auth} id="standard-basic" label="Name" />
 
-                            <div className="col-md-8">
-                                <input disabled={!user.auth} id="name" type="text" value={name}
-                                    onChange={val => setName(val.target.value)}
-                                    className="form-control" name="name"
-                                    required autoFocus />
-                            </div>
-                        </div>
+                        
                         {user.auth ?
-                            <button onClick={handleSubmit} className='btn btn-success'>Complete</button>
+                            <Button onClick={handleSubmit} variant="contained" color="primary">
+                                Confirm
+                            </Button>
                             :
                             <Link to='/login' className='btn btn-danger'>Please Login</Link>
                         }

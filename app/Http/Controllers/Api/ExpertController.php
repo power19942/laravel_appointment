@@ -19,7 +19,7 @@ class ExpertController extends Controller
         $userLocationInfo = geoip(request()->ip());
         $timezone = $userLocationInfo['timezone'];
         error_log($timezone);
-        $experts = User::with('expertAppointments')->get();
+        $experts = User::expert()->with('expertAppointments')->get();
         $experts->map(function($a) use($timezone){
             $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time,$timezone);
             $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time,$timezone);

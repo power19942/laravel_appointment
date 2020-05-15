@@ -17,6 +17,7 @@ const UserContextProvider = (props) => {
     })
 
     const addUser = (user,auth) => {
+        debugger
         // setUser(user)
         // setAuthenticated(true)
         dispatch({ type: 'SET_USER', info: user, auth: auth })

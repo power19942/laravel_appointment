@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function scopeExpert($query)
     {
-        return $query->where('isExpert', true);
+        return $query->where('isExpert', 1);
     }
 
     public function userAppointments(){
