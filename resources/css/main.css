@@ -1,0 +1,12 @@
+.white-container {
+    background-color: white;
+    padding: 20px;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile {}
