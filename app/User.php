@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use JamesMills\LaravelTimezone\Facades\Timezone;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','expert_end_time','expert_start_time','country','timezone',
     ];
 
     /**
@@ -36,4 +38,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function getExpertStartTimeAttribute($value){
+    //     // return convertTimeStampToTime($value);
+    //     return getTimeFromTimeZone($value,'America/New_York');
+    // }
+
+    // public function getExpertEndTimeAttribute($value){
+    //     return getTimeFromTimeZone($value,'America/New_York');
+
+    // }
+
+    public function scopeExpert($query)
+    {
+        return $query->where('isExpert', true);
+    }
+
+    public function userAppointments(){
+        return $this->hasMany(Appointment::class,'client_id');
+    }
+    public function expertAppointments(){
+        return $this->hasMany(Appointment::class,'expert_id');
+    }
+
 }
