@@ -46,11 +46,11 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => 'https://www.db4free.net/' ,//env('DB_HOST', '127.0.0.1'),
+            'host' => 'www.db4free.net' ,//env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => 'laravel_appoinme',// env('DB_DATABASE', 'forge'),
             'username' => 'laravel_appoinme',//env('DB_USERNAME', 'forge'),
-            'password' => 'laravel_appoinme',// env('DB_PASSWORD', ''),
+            'password' => 'fdbf93e4',// env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
