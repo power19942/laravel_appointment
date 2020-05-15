@@ -10,16 +10,22 @@ const AppointmentList = () => {
     console.log(appointments)
     return (
         <div className='row'>
-            <h1>My appointments</h1>
-            {user.auth ?
+            {/* <div className="col-md-2"></div> */}
+            <div className="col-md-12 white-container">
+                <h1 className='mb-5'>My appointments</h1>
+                <div className="appointments-container">
+                    {user.auth ?
 
-                appointments != null && appointments.length > 0 ? appointments.map(ap => <AppointmentCard key={ap.id} appointment={ap} />) :
-                    <h3>You dont have appointments</h3>
-                :
-                <div className="alert alert-danger" role="alert">
-                    Please Login <Link to='/login' className="alert-link">from here</Link>
+                        appointments != null && appointments.length > 0 ? appointments.map(ap => <AppointmentCard key={ap.id} appointment={ap} />) :
+                            <h5 className='text-center'>You dont have any appointments</h5>
+                        :
+                        <div className="alert alert-danger" role="alert">
+                            Please Login <Link to='/login' className="alert-link">from here</Link>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
+            {/* <div className="col-md-2"></div> */}
 
         </div>
     );

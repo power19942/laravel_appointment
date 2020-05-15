@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        color: 'white'
     },
 }));
 const Navbar = () => {
@@ -37,22 +38,29 @@ const Navbar = () => {
         <>
             <AppBar position="static">
                 <Toolbar>
-                    {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton> */}
                     <Typography component={Link} to='/' variant="h6" className={classes.title}>
                         Laravel Appointments
                     </Typography>
-                   
-                    <Button component={Link} to='/login'
-                         color="inherit">Login</Button>
+
+                    {!user.auth ?
+                        <>
+                            <Button component={Link} to='/login'
+                                color="inherit">Login
+                    </Button>
+                            <Button component={Link} to='/register'
+                                color="inherit">Register
+                    </Button>
+                        </>
+                        :
+                        <Button onClick={logout}
+                            color="inherit">Logout
+                    </Button>
+                    }
                 </Toolbar>
             </AppBar>
             <nav style={{ marginBottom: '20px' }} className="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div className="container">
-                    <Link to='/' className="navbar-brand" >
-                        Laravel Appointment
-                </Link>
+
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -66,37 +74,39 @@ const Navbar = () => {
 
                         <ul className="navbar-nav ml-auto">
 
+                            {!user.auth ?
+                                <></> :
+                                <li className="nav-item dropdown">
+                                    <a id="navbarDropdown" className="nav-link dropdown-toggle" href="#" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {userName} <span className="caret"></span>
+                                    </a>
 
-                            <li className="nav-item dropdown">
-                                <a id="navbarDropdown" className="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {userName} <span className="caret"></span>
-                                </a>
 
-                                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    {!user.auth ?
+                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
                                         <>
-                                            <Link to='/Login' className="dropdown-item" >
+                                            {/* <Link to='/Login' className="dropdown-item" >
                                                 Login
                                         </Link>
                                             <Link to='/Register' className="dropdown-item" >
                                                 Register
-                                        </Link>
+                                        </Link> */}
 
-                                        </>
-                                        :
-                                        <>
+
                                             <Link to='/appointments' className="dropdown-item" >
                                                 My appointments
-                                        </Link>
-                                            <button onClick={logout} className="dropdown-item">Logout</button>
+                                            </Link>
+
                                         </>
-                                    }
 
 
 
-                                </div>
-                            </li>
+                                    </div>
+
+
+                                </li>
+                            }
 
                         </ul>
                     </div>

@@ -34,10 +34,17 @@
     margin-top: 50px !important;
 }
 
+.appointments-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
 
 /*override material ui*/
 
-a.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit:hover {
+a.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit:hover,
+a.MuiTypography-root.makeStyles-title-3.MuiTypography-h6:hover {
     color: white;
 }
 
@@ -50,4 +57,8 @@ a {
 
 input {
     border-radius: 0 !important;
+}
+
+.navbar {
+    height: 60px;
 }

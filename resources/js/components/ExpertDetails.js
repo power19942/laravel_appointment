@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link,useHistory } from 'react-router-dom'
 import { ExpertContext } from "../context/ExpertContext";
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import moment from 'moment'
 import { UserContext } from './../context/UserContext';
 import { toast, ToastContainer } from 'react-toastify'
 
@@ -12,17 +10,14 @@ import Button from '@material-ui/core/Button';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import img from '../../img/user.png'
 
@@ -39,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ExpertDetails = () => {
     const classes = useStyles();
-
+    let history = useHistory();
     const getTimeSlot = (start, end) => {
         const date = new Date(`1 Apr, 2020`)
         const startDate = `1 Apr, 2020 ${start}`
@@ -50,11 +45,10 @@ const ExpertDetails = () => {
             startDateObj.setDate(date.getDate() + 1)
         const milliseconds = Math.abs(endDateObj - startDateObj);
         const hours = milliseconds / 36e5;
-        console.log('time slot', hours)
         let times = []        
-        for(let i = 0; i <= hours;i++){
-            times.push({value:'from to',id:i})
-            console.log(moment(start,'HH:mm A'))
+        let startHour = startDateObj.getHours()
+        for(let i = 0; i <= (hours / 2) + 2;i++){
+            times.push({value:`from ${startHour} to ${++startHour}`,id:i})
         }
         setTimeSlot(times)
     }
@@ -82,7 +76,6 @@ const ExpertDetails = () => {
         if (user != null && user.auth) {
             setName(user.info.name)
         }
-        console.log(expert)
         getTimeSlot(expert.expert_start_time, expert.expert_end_time)
     }, [])
     const handleSubmit = async () => {
@@ -111,6 +104,10 @@ const ExpertDetails = () => {
 
         try {
             let result = await axios.post('/api/appointment', formData, config)
+            toast.success('Appointment created sucessfully', {
+                position: toast.POSITION.TOP_RIGHT,
+                onClick:()=>history.push('/appointments')
+            })
             console.log(result.data)
         } catch (e) {
             console.dir(e)
