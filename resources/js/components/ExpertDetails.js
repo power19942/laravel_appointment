@@ -22,6 +22,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import img from '../../img/user.png'
+
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -35,17 +39,26 @@ const useStyles = makeStyles((theme) => ({
 
 const ExpertDetails = () => {
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        age: '',
-        name: 'hai',
-    });
-    const handleChange = (event) => {
-        const name = event.target.name;
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };
+
+    const getTimeSlot = (start, end) => {
+        const date = new Date(`1 Apr, 2020`)
+        const startDate = `1 Apr, 2020 ${start}`
+        const endDate = `1 Apr, 2020 ${end}`
+        const startDateObj = new Date(startDate)
+        const endDateObj = new Date(endDate);
+        if (startDateObj > endDateObj)
+            startDateObj.setDate(date.getDate() + 1)
+        const milliseconds = Math.abs(endDateObj - startDateObj);
+        const hours = milliseconds / 36e5;
+        console.log('time slot', hours)
+        let times = []        
+        for(let i = 0; i <= hours;i++){
+            times.push({value:'from to',id:i})
+            console.log(moment(start,'HH:mm A'))
+        }
+        setTimeSlot(times)
+    }
+
     const { user, addUser } = useContext(UserContext)
     let { id } = useParams()
     let { experts } = useContext(ExpertContext)
@@ -54,39 +67,48 @@ const ExpertDetails = () => {
     const [sessionTime, setSessionTime] = useState('0')
     const [sessionDate, setSessionDate] = useState(new Date())
     const [error, setError] = useState({})
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
+    const [timeSlot, setTimeSlot] = useState([])
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+    
+    const splitTimeZone = (str) => {
+        if (str.includes('/'))
+            return 'Timezone: ' + str.split('/')[0]
+        else
+            return str
+    }
     useEffect(() => {
-        setCurrentExpert(experts.filter(ex => ex.id == id)[0])
+        let expert = experts.filter(ex => ex.id == id)[0]
+        setCurrentExpert(expert)
         if (user != null && user.auth) {
             setName(user.info.name)
         }
-        // console.log(sessionTime)
-        // console.log(moment(sessionDate).format('DD/MM/yyyy'))
+        console.log(expert)
+        getTimeSlot(expert.expert_start_time, expert.expert_end_time)
     }, [])
     const handleSubmit = async () => {
-        if (name.length <= 0 || sessionTime == '0')
+
+        if (name.length <= 0 || sessionTime == '0') {
             setError({ ...error, sessionTime: 'Required' })
-        toast.error('All information are required', {
-            position: toast.POSITION.TOP_RIGHT
-        })
+            toast.error('All information are required', {
+                position: toast.POSITION.TOP_RIGHT
+            })
+            return
+        }
         let token = localStorage.getItem('token');
         let bearer = `Bearer ${token}`
 
-        let config = {
-            headers: {
-                Authorization: bearer
-            }
-        }
         let formData = {
             client_id: user.info.id,
             expert_id: currentExpert.id,
             begin: sessionDate,
             duration: sessionTime,
         }
+        let config = {
+            headers: {
+                Authorization: bearer
+            }
+        }
+
         try {
             let result = await axios.post('/api/appointment', formData, config)
             console.log(result.data)
@@ -98,25 +120,22 @@ const ExpertDetails = () => {
         <div className='container'>
             <div className="row">
                 <div className="col-md-3 white-container">
-                    <div className="white-container profile">
-                        <img className='img-thumbnail' src='https://placehold.it/150' />
+                    <div className="profile">
+                        <div className="img-container"><img className='profile-img' src={img} /></div>
                         <h3>{currentExpert.name}</h3>
-                        <h5>{currentExpert.expert}</h5>
-                        <p>{currentExpert.country}</p>
+                        <br />
+                        <Chip label={'Expert: ' + currentExpert.expert} color="primary" />
+                        <br />
+                        <br />
+                        <Chip label={'Country: ' + currentExpert.country} color="primary" />
                     </div>
                 </div>
                 <div className="col-md-8 display-flex justify-content-center">
 
                     <div className="white-container main-content">
-                        <h1>{currentExpert.name}</h1>
-                        <h3>{currentExpert.expert}</h3>
-                        <p>{currentExpert.country}</p>
-                        <p>{currentExpert.expert_start_time} -> {currentExpert.expert_end_time}</p>
-                        <p>{user.info.timezone}</p>
-                        {/* <Calendar onChange={(date) => setSessionDate(date)} tileDisabled={({ activeStartDate, date, view }) => {
-                            date.getDay() === 5
-                            // console.dir(date)
-                        }} /> */}
+                        <h2>Register new appointmen</h2>
+                        <Chip label={'Avilable time: ' + currentExpert.expert_start_time + '   To   ' + currentExpert.expert_end_time} color="secondary" />
+                        <p>{user.info && splitTimeZone(user.info.timezone)}</p>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
 
@@ -125,54 +144,67 @@ const ExpertDetails = () => {
                                     id="date-picker-dialog"
                                     label="Appointment Date"
                                     format="MM/dd/yyyy"
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
+                                    value={sessionDate}
+                                    onChange={(date) => setSessionDate(date)}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
                                 />
-                                <KeyboardTimePicker
-                                    margin="normal"
-                                    id="time-picker"
-                                    label="Appointment Time"
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change time',
-                                    }}
-                                />
+                                <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                                    <InputLabel htmlFor="duration">Duration</InputLabel>
+                                    <Select
+                                        native
+                                        value={sessionTime}
+                                        onChange={(e) => setSessionTime(e.target.value)}
+                                        inputProps={{
+                                            name: 'Session duration',
+                                            id: 'duration',
+                                        }}
+                                    >
+                                        <option aria-label="None" value="" />
+                                        <option value={15}>15 minuts</option>
+                                        <option value={30}>30 minuts</option>
+                                        <option value={45}>45 minuts</option>
+                                        <option value={60}>1 hour</option>
+                                    </Select>
+                                </FormControl>
                             </Grid>
                         </MuiPickersUtilsProvider>
+                        <br />
+                        <br />
+                        <Grid container justify="space-around">
 
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-                            <Select
-                                native
-                                value={sessionTime}
-                                onChange={(e) => setSessionTime(e.target.value)}
-                                inputProps={{
-                                    name: 'Session duration',
-                                    id: 'age-native-simple',
-                                }}
-                            >
-                                <option aria-label="None" value="" />
-                                <option value={15}>15 minuts</option>
-                                <option value={30}>30 minuts</option>
-                                <option value={45}>45 minuts</option>
-                                <option value={60}>1 hour</option>
-                            </Select>
-                        </FormControl>
+                            <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                                <InputLabel htmlFor="time">Time Slot</InputLabel>
+                                <Select
+                                    native
+                                    value={sessionTime}
+                                    onChange={(e) => setSessionTime(e.target.value)}
+                                    inputProps={{
+                                        name: 'Time Slot',
+                                        id: 'Time',
+                                    }}
+                                >
+                                    <option aria-label="None" value="" />
+                                    {timeSlot.map(time=> <option key={time.id} value={15}>{time.value}</option>)}
+                                </Select>
+                            </FormControl>
 
-                        <TextField value={name}
-                            onChange={val => setName(val.target.value)} disabled={!user.auth} id="standard-basic" label="Name" />
+                            <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                                <TextField value={name}
+                                    onChange={val => setName(val.target.value)} disabled={!user.auth} id="standard-basic" label="Name" />
+                            </FormControl>
+                        </Grid>
 
-                        
+
+
+
                         {user.auth ?
-                            <Button onClick={handleSubmit} variant="contained" color="primary">
+                            <Button style={{ minWidth: 200 }} className='confirm-btn' onClick={handleSubmit} variant="contained" color="primary">
                                 Confirm
                             </Button>
                             :
-                            <Link to='/login' className='btn btn-danger'>Please Login</Link>
+                            <Link to='/login' className='btn btn-danger login-danger'>Please Login</Link>
                         }
                     </div>
                 </div>

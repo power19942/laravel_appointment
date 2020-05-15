@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom'
 import { UserContext } from "../context/UserContext";
+import Button from '@material-ui/core/Button';
 const Register = () => {
-    const { user, addUser } = useContext(UserContext)
+    const { addUser } = useContext(UserContext)
     let history = useHistory();
     const [loading, setLoading] = useState(false)
     //TODO: remove default value
@@ -42,7 +43,7 @@ const Register = () => {
     return (
         <div className="row justify-content-center">
             <div className="col-md-8">
-                <div className="card">
+                <div className="card login-card">
                     <div className="card-header">Register</div>
 
                     <div className="card-body">
@@ -113,9 +114,9 @@ const Register = () => {
 
                             <div className="form-group row mb-0">
                                 <div className="col-md-8 offset-md-4">
-                                    <button disabled={loading} type="submit" className="btn btn-primary">
+                                    <Button type="submit" style={{ minWidth: 100 }} disabled={loading} variant="contained" color="primary">
                                         Register
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         </form>
