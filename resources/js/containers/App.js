@@ -1,24 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../../css/main.css'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
+import ExpertList from "../components/ExpertList";
+import ExpertPage from "../components/ExpertsPage";
+import ExpertDetails from "../components/ExpertDetails";
+import ExpertContextProvider from "../context/ExpertContext";
+import Navbar from "../components/Navbar";
+import Login from '../components/Login'
+import 'react-toastify/dist/ReactToastify.css';
+import UserContextProvider from "../context/UserContext";
+import Register from './../components/Register';
+import Appointment from './Appointment';
 
-function Example() {
+function App() {
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
-
-                        <div className="card-body">I'm an example component!</div>
+        <Router>
+            <UserContextProvider>
+                <ExpertContextProvider>
+                    <Navbar/>
+                    <div className="container">
+                        <Switch>
+                            <Route path='/details/:id' component={ExpertDetails}/>
+                            <Route path='/appointments' component={Appointment}/>
+                            <Route path='/Login' component={Login}/>
+                            <Route path='/Register' component={Register}/>
+                            <Route exact path='/' component={ExpertPage}/>
+                        </Switch>
                     </div>
-                </div>
-            </div>
-        </div>
+                </ExpertContextProvider>
+            </UserContextProvider>
+        </Router>
     );
 }
 
-export default Example;
+export default App;
 
 if (document.getElementById('app')) {
-    ReactDOM.render(<Example />, document.getElementById('app'));
+    ReactDOM.render(<App/>, document.getElementById('app'));
 }
