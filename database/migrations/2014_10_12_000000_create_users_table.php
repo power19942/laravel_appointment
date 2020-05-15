@@ -13,12 +13,19 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+//        Schema::enableForeignKeyConstraints();
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('isExpert')->default(false);
+            $table->string('expert')->nullable();
+            $table->string('country');
+            $table->dateTime('expert_start_time')->nullable();
+            $table->dateTime('expert_end_time')->nullable();
+            $table->string('timezone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
