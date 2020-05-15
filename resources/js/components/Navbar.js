@@ -57,9 +57,7 @@ const Navbar = () => {
                                         <Link to='/Register' className="dropdown-item" >
                                             Register
                                         </Link>
-                                        <Link to='/appointments' className="dropdown-item" >
-                                            My appointments
-                                        </Link>
+
                                     </>
                                     :
                                     <>
