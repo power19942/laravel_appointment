@@ -42,7 +42,7 @@ const ExpertDetails = () => {
             Authorization: bearer
         }
     }
-    const { user} = useContext(UserContext)
+    const { user } = useContext(UserContext)
     let { id } = useParams()
     let { experts } = useContext(ExpertContext)
     const [currentExpert, setCurrentExpert] = useState({})
@@ -72,12 +72,13 @@ const ExpertDetails = () => {
     const checkIfDateAvilable = async (e) => {
         setLoading(true)
         setTimeSlot(e.target.value)
-        let res = await axios.post('/api/apointment-avilable', 
-        { id: currentExpert.id,
-            date:sessionDate,
-            time_slot: e.target.value }, config)
-         (res.data)
-        if(res.data > 0){
+        let res = await axios.post('/api/apointment-avilable',
+            {
+                id: currentExpert.id,
+                date: sessionDate,
+                time_slot: e.target.value
+            }, config)
+        if (res.data > 0) {
             setTimeSlot('')
             toast.error('this date is reserved, pick another one', {
                 position: toast.POSITION.TOP_RIGHT
@@ -112,7 +113,7 @@ const ExpertDetails = () => {
             duration: duration,
             time_slot: timeSlot
         }
-         (formData)
+            (formData)
 
 
         try {
@@ -121,7 +122,7 @@ const ExpertDetails = () => {
                 position: toast.POSITION.TOP_RIGHT,
                 onClick: () => history.push('/appointments')
             })
-             (result.data)
+                (result.data)
         } catch (e) {
             console.dir(e)
         }

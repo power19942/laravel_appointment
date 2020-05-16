@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 const AppointmentList = () => {
     const { appointments,dispatch } = useContext(AppointmentContext)
     const { user } = useContext(UserContext)
-    console.log('appppppppppppppppp',appointments)
     return (
         <div className='row'>
             <div className="col-md-12 white-container">

@@ -111439,7 +111439,7 @@ var ExpertDetails = function ExpertDetails() {
                 id: currentExpert.id,
                 date: sessionDate,
                 time_slot: e.target.value
-              }, config)(res.data);
+              }, config);
 
             case 4:
               res = _context2.sent;
@@ -112370,7 +112370,6 @@ var AppointmentList = function AppointmentList() {
   var _useContext2 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_context_UserContext__WEBPACK_IMPORTED_MODULE_3__["UserContext"]),
       user = _useContext2.user;
 
-  console.log('appppppppppppppppp', appointments);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
