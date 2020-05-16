@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams, Link,useHistory } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 import { ExpertContext } from "../context/ExpertContext";
 import 'react-calendar/dist/Calendar.css';
 import { UserContext } from './../context/UserContext';
@@ -35,23 +35,23 @@ const useStyles = makeStyles((theme) => ({
 const ExpertDetails = () => {
     const classes = useStyles();
     let history = useHistory();
-    const getTimeSlot = (start, end) => {
-        const date = new Date(`1 Apr, 2020`)
-        const startDate = `1 Apr, 2020 ${start}`
-        const endDate = `1 Apr, 2020 ${end}`
-        const startDateObj = new Date(startDate)
-        const endDateObj = new Date(endDate);
-        if (startDateObj > endDateObj)
-            startDateObj.setDate(date.getDate() + 1)
-        const milliseconds = Math.abs(endDateObj - startDateObj);
-        const hours = milliseconds / 36e5;
-        let times = []        
-        let startHour = startDateObj.getHours()
-        for(let i = 0; i <= (hours / 2) + 2;i++){
-            times.push({value:`from ${startHour} to ${++startHour}`,id:i})
-        }
-        setTimeSlot(times)
-    }
+    // const getTimeSlot = (start, end) => {
+    //     const date = new Date(`1 Apr, 2020`)
+    //     const startDate = `1 Apr, 2020 ${start}`
+    //     const endDate = `1 Apr, 2020 ${end}`
+    //     const startDateObj = new Date(startDate)
+    //     const endDateObj = new Date(endDate);
+    //     if (startDateObj > endDateObj)
+    //         startDateObj.setDate(date.getDate() + 1)
+    //     const milliseconds = Math.abs(endDateObj - startDateObj);
+    //     const hours = milliseconds / 36e5;
+    //     let times = []
+    //     let startHour = startDateObj.getHours()
+    //     for (let i = 0; i <= (hours / 2) + 2; i++) {
+    //         times.push({ value: `from ${startHour} to ${++startHour}`, id: i })
+    //     }
+    //     setTimeSlot(times)
+    // }
 
     const { user, addUser } = useContext(UserContext)
     let { id } = useParams()
@@ -59,11 +59,12 @@ const ExpertDetails = () => {
     const [currentExpert, setCurrentExpert] = useState({})
     const [name, setName] = useState('')
     const [sessionTime, setSessionTime] = useState('0')
+    const [timeSlot, setTimeSlot] = useState('0')
     const [sessionDate, setSessionDate] = useState(new Date())
     const [error, setError] = useState({})
-    const [timeSlot, setTimeSlot] = useState([])
+    // const [timeSlot, setTimeSlot] = useState([])
 
-    
+
     const splitTimeZone = (str) => {
         if (str.includes('/'))
             return 'Timezone: ' + str.split('/')[0]
@@ -72,11 +73,12 @@ const ExpertDetails = () => {
     }
     useEffect(() => {
         let expert = experts.filter(ex => ex.id == id)[0]
+        // console.log(expert.time_slot)
         setCurrentExpert(expert)
         if (user != null && user.auth) {
             setName(user.info.name)
         }
-        getTimeSlot(expert.expert_start_time, expert.expert_end_time)
+        // getTimeSlot(expert.expert_start_time, expert.expert_end_time)
     }, [])
     const handleSubmit = async () => {
 
@@ -95,7 +97,9 @@ const ExpertDetails = () => {
             expert_id: currentExpert.id,
             begin: sessionDate,
             duration: sessionTime,
+            timeSlot:timeSlot
         }
+        console.log(formData)
         let config = {
             headers: {
                 Authorization: bearer
@@ -106,7 +110,7 @@ const ExpertDetails = () => {
             let result = await axios.post('/api/appointment', formData, config)
             toast.success('Appointment created sucessfully', {
                 position: toast.POSITION.TOP_RIGHT,
-                onClick:()=>history.push('/appointments')
+                onClick: () => history.push('/appointments')
             })
             console.log(result.data)
         } catch (e) {
@@ -175,15 +179,18 @@ const ExpertDetails = () => {
                                 <InputLabel htmlFor="time">Time Slot</InputLabel>
                                 <Select
                                     native
-                                    value={sessionTime}
-                                    onChange={(e) => setSessionTime(e.target.value)}
+                                    value={timeSlot}
+                                    onChange={(e) => setTimeSlot(e.target.value)}
                                     inputProps={{
                                         name: 'Time Slot',
                                         id: 'Time',
                                     }}
                                 >
                                     <option aria-label="None" value="" />
-                                    {timeSlot.map(time=> <option key={time.id} value={15}>{time.value}</option>)}
+                                    {currentExpert.time_slot && currentExpert.time_slot.map((time, index) => {
+                                        if (index == currentExpert.time_slot.length-1) return
+                                        return <option key={index} value={'from '+ time +' to '+ currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
+                                    })}
                                 </Select>
                             </FormControl>
 

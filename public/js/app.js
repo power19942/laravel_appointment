@@ -111346,29 +111346,23 @@ var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_14__["m
 
 var ExpertDetails = function ExpertDetails() {
   var classes = useStyles();
-  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useHistory"])();
-
-  var getTimeSlot = function getTimeSlot(start, end) {
-    var date = new Date("1 Apr, 2020");
-    var startDate = "1 Apr, 2020 ".concat(start);
-    var endDate = "1 Apr, 2020 ".concat(end);
-    var startDateObj = new Date(startDate);
-    var endDateObj = new Date(endDate);
-    if (startDateObj > endDateObj) startDateObj.setDate(date.getDate() + 1);
-    var milliseconds = Math.abs(endDateObj - startDateObj);
-    var hours = milliseconds / 36e5;
-    var times = [];
-    var startHour = startDateObj.getHours();
-
-    for (var i = 0; i <= hours / 2 + 2; i++) {
-      times.push({
-        value: "from ".concat(startHour, " to ").concat(++startHour),
-        id: i
-      });
-    }
-
-    setTimeSlot(times);
-  };
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useHistory"])(); // const getTimeSlot = (start, end) => {
+  //     const date = new Date(`1 Apr, 2020`)
+  //     const startDate = `1 Apr, 2020 ${start}`
+  //     const endDate = `1 Apr, 2020 ${end}`
+  //     const startDateObj = new Date(startDate)
+  //     const endDateObj = new Date(endDate);
+  //     if (startDateObj > endDateObj)
+  //         startDateObj.setDate(date.getDate() + 1)
+  //     const milliseconds = Math.abs(endDateObj - startDateObj);
+  //     const hours = milliseconds / 36e5;
+  //     let times = []
+  //     let startHour = startDateObj.getHours()
+  //     for (let i = 0; i <= (hours / 2) + 2; i++) {
+  //         times.push({ value: `from ${startHour} to ${++startHour}`, id: i })
+  //     }
+  //     setTimeSlot(times)
+  // }
 
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_context_UserContext__WEBPACK_IMPORTED_MODULE_5__["UserContext"]),
       user = _useContext.user,
@@ -111395,20 +111389,21 @@ var ExpertDetails = function ExpertDetails() {
       sessionTime = _useState6[0],
       setSessionTime = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(new Date()),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('0'),
       _useState8 = _slicedToArray(_useState7, 2),
-      sessionDate = _useState8[0],
-      setSessionDate = _useState8[1];
+      timeSlot = _useState8[0],
+      setTimeSlot = _useState8[1];
 
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({}),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(new Date()),
       _useState10 = _slicedToArray(_useState9, 2),
-      error = _useState10[0],
-      setError = _useState10[1];
+      sessionDate = _useState10[0],
+      setSessionDate = _useState10[1];
 
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({}),
       _useState12 = _slicedToArray(_useState11, 2),
-      timeSlot = _useState12[0],
-      setTimeSlot = _useState12[1];
+      error = _useState12[0],
+      setError = _useState12[1]; // const [timeSlot, setTimeSlot] = useState([])
+
 
   var splitTimeZone = function splitTimeZone(str) {
     if (str.includes('/')) return 'Timezone: ' + str.split('/')[0];else return str;
@@ -111417,14 +111412,14 @@ var ExpertDetails = function ExpertDetails() {
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     var expert = experts.filter(function (ex) {
       return ex.id == id;
-    })[0];
+    })[0]; // console.log(expert.time_slot)
+
     setCurrentExpert(expert);
 
     if (user != null && user.auth) {
       setName(user.info.name);
-    }
+    } // getTimeSlot(expert.expert_start_time, expert.expert_end_time)
 
-    getTimeSlot(expert.expert_start_time, expert.expert_end_time);
   }, []);
 
   var handleSubmit = /*#__PURE__*/function () {
@@ -111454,18 +111449,20 @@ var ExpertDetails = function ExpertDetails() {
                 client_id: user.info.id,
                 expert_id: currentExpert.id,
                 begin: sessionDate,
-                duration: sessionTime
+                duration: sessionTime,
+                timeSlot: timeSlot
               };
+              console.log(formData);
               config = {
                 headers: {
                   Authorization: bearer
                 }
               };
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 9;
+              _context.next = 12;
               return axios.post('/api/appointment', formData, config);
 
-            case 11:
+            case 12:
               result = _context.sent;
               react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].success('Appointment created sucessfully', {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT,
@@ -111474,20 +111471,20 @@ var ExpertDetails = function ExpertDetails() {
                 }
               });
               console.log(result.data);
-              _context.next = 19;
+              _context.next = 20;
               break;
 
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](8);
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](9);
               console.dir(_context.t0);
 
-            case 19:
+            case 20:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[8, 16]]);
+      }, _callee, null, [[9, 17]]);
     }));
 
     return function handleSubmit() {
@@ -111578,9 +111575,9 @@ var ExpertDetails = function ExpertDetails() {
     htmlFor: "time"
   }, "Time Slot"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_13__["default"], {
     "native": true,
-    value: sessionTime,
+    value: timeSlot,
     onChange: function onChange(e) {
-      return setSessionTime(e.target.value);
+      return setTimeSlot(e.target.value);
     },
     inputProps: {
       name: 'Time Slot',
@@ -111589,11 +111586,12 @@ var ExpertDetails = function ExpertDetails() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     "aria-label": "None",
     value: ""
-  }), timeSlot.map(function (time) {
+  }), currentExpert.time_slot && currentExpert.time_slot.map(function (time, index) {
+    if (index == currentExpert.time_slot.length - 1) return;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-      key: time.id,
-      value: 15
-    }, time.value);
+      key: index,
+      value: 'from ' + time + ' to ' + currentExpert.time_slot[index + 1]
+    }, "from ", time, " to ", currentExpert.time_slot[index + 1]);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_12__["default"], {
     style: {
       minWidth: 250

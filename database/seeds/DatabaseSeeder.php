@@ -42,6 +42,13 @@ class DatabaseSeeder extends Seeder
             'expert_start_time' => new DateTime(now()->format('yy-m-d') . ' 1 pm', new DateTimeZone('Africa/Cairo')),
             'expert_end_time' => new DateTime(now()->format('yy-m-d') . ' 2 pm', new DateTimeZone('Africa/Cairo')),
         ]);
+        factory(User::class)->create([
+            'name' => 'omar',
+            'email' => 'o@o.com',
+            'isExpert' => false,
+            'country' => 'Egypt',
+            'timezone' => 'Africa/Cairo',
 
+        ]);
     }
 }

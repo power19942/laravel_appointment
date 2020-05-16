@@ -23,6 +23,7 @@ class ExpertController extends Controller
         $experts->map(function($a) use($timezone){
             $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time,$timezone);
             $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time,$timezone);
+            $a->time_slot = getTimeSlot($a->expert_start_time,$a->expert_end_time);
             return $a;
         });
         return $experts;
