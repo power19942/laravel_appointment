@@ -3,7 +3,7 @@ export const userReducer = (state = { info: {}, auth: false }, action) => {
         case 'GET_USER':
             return state
         case 'SET_USER':
-            console.log('auth', state)
+            ('auth', state)
             return { info: action.info, auth: action.auth }
         default:
             return state

@@ -3,7 +3,7 @@ export const appointmentReducer = (state, action) => {
         case 'GET_APPOINTMENT':
             return state
         case 'SET_APPOINTMENT':
-            console.log('SET_APPOINTMENT', state)
+            ('SET_APPOINTMENT', state)
             return action.appointments
 
         default:

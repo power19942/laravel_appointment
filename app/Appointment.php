@@ -18,7 +18,7 @@ class Appointment extends Model
 
     public function getBeginAttribute($value){
         $timezone = geoip(request()->ip())['timezone'];
-        return convertDateToAnotherTimeZone($value,/*$this->appointmentUser->*/$timezone)
+        return convertDateToAnotherTimeZone($value,$timezone)
         ->format('d/m/yy');
     }
 }

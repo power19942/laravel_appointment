@@ -17,15 +17,11 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            // let loginResult = await axios.get('/sanctum/csrf-cookie')
             var res = await axios.post('/api/login', { email, password, rememberMe })
             localStorage.setItem('user', JSON.stringify(res.data.data.info))
             localStorage.setItem('token', res.data.data.token)
             addUser(res.data.data.info,true)
-            // toast.success(`Welcome ${res.data.data.info.name}`, {
-            //     position: toast.POSITION.TOP_RIGHT,
-               
-            // })
+
                 setLoading(false)
 
                 history.push("/")

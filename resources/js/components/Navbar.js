@@ -85,20 +85,15 @@ const Navbar = () => {
 
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                        <>
-                                            {/* <Link to='/Login' className="dropdown-item" >
-                                                Login
-                                        </Link>
-                                            <Link to='/Register' className="dropdown-item" >
-                                                Register
-                                        </Link> */}
+                                        
+                                       
 
 
                                             <Link to='/appointments' className="dropdown-item" >
                                                 My appointments
                                             </Link>
 
-                                        </>
+                                        
 
 
 

@@ -111293,12 +111293,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _img_user_png__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_img_user_png__WEBPACK_IMPORTED_MODULE_17__);
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -111356,8 +111350,7 @@ var ExpertDetails = function ExpertDetails() {
   };
 
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_context_UserContext__WEBPACK_IMPORTED_MODULE_5__["UserContext"]),
-      user = _useContext.user,
-      addUser = _useContext.addUser;
+      user = _useContext.user;
 
   var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useParams"])(),
       id = _useParams.id;
@@ -111380,7 +111373,7 @@ var ExpertDetails = function ExpertDetails() {
       duration = _useState6[0],
       setDuration = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('0'),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
       _useState8 = _slicedToArray(_useState7, 2),
       timeSlot = _useState8[0],
       setTimeSlot = _useState8[1];
@@ -111390,15 +111383,10 @@ var ExpertDetails = function ExpertDetails() {
       sessionDate = _useState10[0],
       setSessionDate = _useState10[1];
 
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({}),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      error = _useState12[0],
-      setError = _useState12[1];
-
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
-      _useState14 = _slicedToArray(_useState13, 2),
-      loading = _useState14[0],
-      setLoading = _useState14[1];
+      loading = _useState12[0],
+      setLoading = _useState12[1];
 
   var splitTimeZone = function splitTimeZone(str) {
     if (str.includes('/')) return 'Timezone: ' + str.split('/')[0];else return str;
@@ -111444,28 +111432,28 @@ var ExpertDetails = function ExpertDetails() {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              // setLoading(true)
+              setLoading(true);
               setTimeSlot(e.target.value);
-              _context2.next = 3;
+              _context2.next = 4;
               return axios.post('/api/apointment-avilable', {
                 id: currentExpert.id,
                 date: sessionDate,
                 time_slot: e.target.value
-              }, config);
+              }, config)(res.data);
 
-            case 3:
+            case 4:
               res = _context2.sent;
-              console.log(res.data);
 
               if (res.data > 0) {
                 setTimeSlot('');
                 react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].error('this date is reserved, pick another one', {
                   position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT
                 });
-              } // setLoading(false)
+              }
 
+              setLoading(false);
 
-            case 6:
+            case 7:
             case "end":
               return _context2.stop();
           }
@@ -111496,55 +111484,50 @@ var ExpertDetails = function ExpertDetails() {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              if (!(name.length <= 0 || duration == '0')) {
-                _context3.next = 4;
+              if (!(name.length <= 0 || duration == '0' || timeSlot == '')) {
+                _context3.next = 3;
                 break;
               }
 
-              setError(_objectSpread(_objectSpread({}, error), {}, {
-                duration: 'Required'
-              }));
               react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].error('All information are required', {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT
               });
               return _context3.abrupt("return");
 
-            case 4:
+            case 3:
               formData = {
                 client_id: user.info.id,
                 expert_id: currentExpert.id,
                 begin: sessionDate,
                 duration: duration,
                 time_slot: timeSlot
-              };
-              console.log(formData);
-              _context3.prev = 6;
-              _context3.next = 9;
+              }(formData);
+              _context3.prev = 4;
+              _context3.next = 7;
               return axios.post('/api/appointment', formData, config);
 
-            case 9:
+            case 7:
               result = _context3.sent;
               react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].success('Appointment created sucessfully', {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT,
                 onClick: function onClick() {
                   return history.push('/appointments');
                 }
-              });
-              console.log(result.data);
-              _context3.next = 17;
+              })(result.data);
+              _context3.next = 14;
               break;
 
-            case 14:
-              _context3.prev = 14;
-              _context3.t0 = _context3["catch"](6);
+            case 11:
+              _context3.prev = 11;
+              _context3.t0 = _context3["catch"](4);
               console.dir(_context3.t0);
 
-            case 17:
+            case 14:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[6, 14]]);
+      }, _callee3, null, [[4, 11]]);
     }));
 
     return function handleSubmit() {
@@ -111837,10 +111820,7 @@ var Login = function Login() {
               res = _context.sent;
               localStorage.setItem('user', JSON.stringify(res.data.data.info));
               localStorage.setItem('token', res.data.data.token);
-              addUser(res.data.data.info, true); // toast.success(`Welcome ${res.data.data.info.name}`, {
-              //     position: toast.POSITION.TOP_RIGHT,
-              // })
-
+              addUser(res.data.data.info, true);
               setLoading(false);
               history.push("/");
               _context.next = 17;
@@ -112071,10 +112051,10 @@ var Navbar = function Navbar() {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "dropdown-menu dropdown-menu-right",
     "aria-labelledby": "navbarDropdown"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/appointments",
     className: "dropdown-item"
-  }, "My appointments")))))))));
+  }, "My appointments"))))))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Navbar);
@@ -112743,7 +112723,7 @@ var appointmentReducer = function appointmentReducer(state, action) {
       return state;
 
     case 'SET_APPOINTMENT':
-      console.log('SET_APPOINTMENT', state);
+      'SET_APPOINTMENT', state;
       return action.appointments;
 
     default:
@@ -112800,7 +112780,7 @@ var userReducer = function userReducer() {
       return state;
 
     case 'SET_USER':
-      console.log('auth', state);
+      'auth', state;
       return {
         info: action.info,
         auth: action.auth

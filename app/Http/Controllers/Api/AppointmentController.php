@@ -8,6 +8,7 @@ use App\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -35,6 +36,7 @@ class AppointmentController extends Controller
 
     public  function checkIfAvilable(Request $request)
     {
+        return Appointment::all()->where('begin', '=','2020-05-01T01:57:00.000Z');
         $appointments = Appointment::all()->where('expert_id', $request->id)
             ->where('begin', $request->date)
             ->where('time_slot', $request->time_slot);

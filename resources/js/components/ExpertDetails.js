@@ -42,15 +42,14 @@ const ExpertDetails = () => {
             Authorization: bearer
         }
     }
-    const { user, addUser } = useContext(UserContext)
+    const { user} = useContext(UserContext)
     let { id } = useParams()
     let { experts } = useContext(ExpertContext)
     const [currentExpert, setCurrentExpert] = useState({})
     const [name, setName] = useState('')
     const [duration, setDuration] = useState('15')
-    const [timeSlot, setTimeSlot] = useState('0')
+    const [timeSlot, setTimeSlot] = useState('')
     const [sessionDate, setSessionDate] = useState(new Date())
-    const [error, setError] = useState({})
     const [loading, setLoading] = useState(false)
 
 
@@ -71,13 +70,13 @@ const ExpertDetails = () => {
     }
 
     const checkIfDateAvilable = async (e) => {
-        // setLoading(true)
+        setLoading(true)
         setTimeSlot(e.target.value)
         let res = await axios.post('/api/apointment-avilable', 
         { id: currentExpert.id,
             date:sessionDate,
             time_slot: e.target.value }, config)
-        console.log(res.data)
+         (res.data)
         if(res.data > 0){
             setTimeSlot('')
             toast.error('this date is reserved, pick another one', {
@@ -85,7 +84,7 @@ const ExpertDetails = () => {
             })
         }
 
-        // setLoading(false)
+        setLoading(false)
 
     }
 
@@ -98,8 +97,7 @@ const ExpertDetails = () => {
     }, [])
     const handleSubmit = async () => {
 
-        if (name.length <= 0 || duration == '0') {
-            setError({ ...error, duration: 'Required' })
+        if (name.length <= 0 || duration == '0' || timeSlot == '') {
             toast.error('All information are required', {
                 position: toast.POSITION.TOP_RIGHT
             })
@@ -114,7 +112,7 @@ const ExpertDetails = () => {
             duration: duration,
             time_slot: timeSlot
         }
-        console.log(formData)
+         (formData)
 
 
         try {
@@ -123,7 +121,7 @@ const ExpertDetails = () => {
                 position: toast.POSITION.TOP_RIGHT,
                 onClick: () => history.push('/appointments')
             })
-            console.log(result.data)
+             (result.data)
         } catch (e) {
             console.dir(e)
         }
