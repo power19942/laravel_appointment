@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import img from '../../img/user.png'
+
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
@@ -17,13 +18,14 @@ const useStyles = makeStyles({
         height: 240,
     },
 });
+
 const ExpertCard = ({ user }) => {
     const classes = useStyles();
 
     return (
         <div className='col-md-4'>
             <Card className={classes.root}>
-                <CardActionArea>
+                <CardActionArea component={Link} to={'/details/' + user.id}>
                     <CardMedia
                         className={classes.media}
                         image={img}

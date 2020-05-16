@@ -16,9 +16,21 @@ class Appointment extends Model
     }
 
 
-    public function getBeginAttribute($value){
-        $timezone = geoip(request()->ip())['timezone'];
-        return convertDateToAnotherTimeZone($value,$timezone)
-        ->format('d/m/yy');
+//    public function getBeginAttribute($value){
+//        $timezone = geoip(request()->ip())['timezone'];
+//        return convertDateToAnotherTimeZone($value,$timezone)
+//        ->format('d/m/yy');
+//    }
+
+    public function setBeginAttribute($value){
+        //save date as utc
+        $this->attributes['begin'] = convertDateToAnotherTimeZone($value,'UTC')
+            ->format('Y-m-d H:i:s');
+    }
+
+    public function setEndAttribute($value){
+        //save date as utc
+        $this->attributes['end'] = convertDateToAnotherTimeZone($value,'UTC')
+            ->format('Y-m-d H:i:s');
     }
 }

@@ -5,6 +5,11 @@
 //    return date("G:i", strtotime($time));
 //
 //}
+
+function requesterTimezone($ip){
+    return geoip($ip)['timezone'];
+}
+
 function convertTimeStampToTime($timestamp)
 {
     return date('h:i a', $timestamp);
@@ -35,7 +40,7 @@ function getTimeSlot($StartTime, $EndTime, $Duration="60"){
 
     while ($StartTime <= $EndTime)
     {
-        $ReturnArray[] = date ("G:i", $StartTime);
+        $ReturnArray[] = date ("h:i a", $StartTime);
         $StartTime += $AddMins;
     }
     return $ReturnArray;

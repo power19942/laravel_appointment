@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useParams, Link, useHistory } from 'react-router-dom'
-import { ExpertContext } from "../context/ExpertContext";
+import React, {useContext, useEffect, useState} from 'react'
+import {useParams, Link, useHistory} from 'react-router-dom'
+import {ExpertContext} from "../context/ExpertContext";
 import 'react-calendar/dist/Calendar.css';
-import { UserContext } from './../context/UserContext';
-import { toast, ToastContainer } from 'react-toastify'
+import {UserContext} from './../context/UserContext';
+import {toast, ToastContainer} from 'react-toastify'
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -16,7 +16,7 @@ import {
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import img from '../../img/user.png'
@@ -42,9 +42,9 @@ const ExpertDetails = () => {
             Authorization: bearer
         }
     }
-    const { user } = useContext(UserContext)
-    let { id } = useParams()
-    let { experts } = useContext(ExpertContext)
+    const {user} = useContext(UserContext)
+    let {id} = useParams()
+    let {experts} = useContext(ExpertContext)
     const [currentExpert, setCurrentExpert] = useState({})
     const [name, setName] = useState('')
     const [duration, setDuration] = useState('15')
@@ -67,26 +67,32 @@ const ExpertDetails = () => {
     const changeDuration = async (e) => {
         setLoading(true)
         setDuration(e.target.value)
-        let res = await axios.post('/api/update-time-slot', { id: currentExpert.id, duration: e.target.value })
+        let res = await axios.post('/api/update-time-slot', {id: currentExpert.id, duration: e.target.value})
         setCurrentExpert(res.data)
         setLoading(false)
 
     }
 
     const checkIfDateAvilable = async (e) => {
-        setLoading(true)
         setTimeSlot(e.target.value)
-        let res = await axios.post('/api/apointment-avilable',
-            {
-                id: currentExpert.id,
-                date: sessionDate,
-                time_slot: e.target.value
-            }, config)
-        if (res.data > 0) {
-            setTimeSlot('')
-            toast.error('this date is reserved, pick another one', {
-                position: toast.POSITION.TOP_RIGHT
-            })
+        if (e.target.value == '') return
+        setLoading(true)
+        try{
+            let res = await axios.post('/api/apointment-avilable',
+                {
+                    id: currentExpert.id,
+                    date: sessionDate,
+                    begin: sessionDate.toDateString(),
+                    time_slot: e.target.value
+                }, config)
+            if (res.data > 0) {
+                setTimeSlot('')
+                toast.error('this date is reserved, pick another one', {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            }
+        }catch (e) {
+
         }
 
         setLoading(false)
@@ -101,58 +107,58 @@ const ExpertDetails = () => {
         }
     }, [])
     const handleSubmit = async () => {
-
         if (name.length <= 0 || duration == '0' || timeSlot == '') {
             toast.error('All information are required', {
                 position: toast.POSITION.TOP_RIGHT
             })
-            return
-        }
 
+        } else {
+            let formData = {
+                client_id: user.info.id,
+                expert_id: currentExpert.id,
+                begin: sessionDate.toDateString(),
+                duration: duration,
+                time_slot: timeSlot
+            }
 
-        let formData = {
-            client_id: user.info.id,
-            expert_id: currentExpert.id,
-            begin: sessionDate,
-            duration: duration,
-            time_slot: timeSlot
-        }
-            (formData)
-
-
-        try {
-            let result = await axios.post('/api/appointment', formData, config)
-            toast.success('Appointment created sucessfully', {
-                position: toast.POSITION.TOP_RIGHT,
-                onClick: () => history.push('/appointments')
-            })
-                (result.data)
-        } catch (e) {
-            console.dir(e)
+            try {
+                let result = await axios.post('/api/appointment', formData, config)
+                toast.success('Appointment created sucessfully', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    onClick: () => history.push('/appointments')
+                })
+                console.log(result.data)
+            } catch (e) {
+                console.dir(e)
+            }
         }
     }
     return (
         <div className='container'>
-            <div style={{ visibility: loading ? 'visible' : 'hidden' }} className="loading">
-                <h2 className='text-white'><div className="lds-dual-ring"></div></h2>
+            <div style={{visibility: loading ? 'visible' : 'hidden'}} className="loading">
+                <h2 className='text-white'>
+                    <div className="lds-dual-ring"></div>
+                </h2>
             </div>
             <div className="row">
                 <div className="col-md-3 white-container">
                     <div className="profile">
-                        <div className="img-container"><img className='profile-img' src={img} /></div>
+                        <div className="img-container"><img className='profile-img' src={img}/></div>
                         <h3>{currentExpert.name}</h3>
-                        <br />
-                        <Chip label={'Expert: ' + currentExpert.expert} color="primary" />
-                        <br />
-                        <br />
-                        <Chip label={'Country: ' + currentExpert.country} color="primary" />
+                        <br/>
+                        <Chip label={'Expert: ' + currentExpert.expert} color="primary"/>
+                        <br/>
+                        <br/>
+                        <Chip label={'Country: ' + currentExpert.country} color="primary"/>
                     </div>
                 </div>
                 <div className="col-md-8 display-flex justify-content-center">
 
                     <div className="white-container main-content">
                         <h2>Register new appointmen</h2>
-                        <Chip label={'Avilable time: ' + currentExpert.expert_start_time + '   To   ' + currentExpert.expert_end_time} color="secondary" />
+                        <Chip
+                            label={'Avilable time: ' + currentExpert.expert_start_time + '   To   ' + currentExpert.expert_end_time}
+                            color="secondary"/>
                         <p>{user.info && splitTimeZone(user.info.timezone)}</p>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
@@ -168,7 +174,7 @@ const ExpertDetails = () => {
                                         'aria-label': 'change date',
                                     }}
                                 />
-                                <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                                <FormControl style={{minWidth: 250}} className={classes.formControl}>
                                     <InputLabel htmlFor="duration">Duration</InputLabel>
                                     <Select
                                         native
@@ -187,11 +193,11 @@ const ExpertDetails = () => {
                                 </FormControl>
                             </Grid>
                         </MuiPickersUtilsProvider>
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <Grid container justify="space-around">
 
-                            <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                            <FormControl style={{minWidth: 250}} className={classes.formControl}>
                                 <InputLabel htmlFor="time">Time Slot</InputLabel>
                                 <Select
                                     native
@@ -202,25 +208,26 @@ const ExpertDetails = () => {
                                         id: 'Time',
                                     }}
                                 >
-                                    <option aria-label="None" value="" />
+                                    <option aria-label="None" value=""/>
                                     {currentExpert.time_slot && currentExpert.time_slot.map((time, index) => {
                                         if (index == currentExpert.time_slot.length - 1) return
-                                        return <option key={index} value={'from ' + time + ' to ' + currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
+                                        return <option key={index}
+                                                       value={time + ' - ' + currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
                                     })}
                                 </Select>
                             </FormControl>
 
-                            <FormControl style={{ minWidth: 250 }} className={classes.formControl}>
+                            <FormControl style={{minWidth: 250}} className={classes.formControl}>
                                 <TextField value={name}
-                                    onChange={val => setName(val.target.value)} disabled={!user.auth} id="standard-basic" label="Name" />
+                                           onChange={val => setName(val.target.value)} disabled={!user.auth}
+                                           id="standard-basic" label="Name"/>
                             </FormControl>
                         </Grid>
 
 
-
-
                         {user.auth ?
-                            <Button style={{ minWidth: 200 }} className='confirm-btn' onClick={handleSubmit} variant="contained" color="primary">
+                            <Button style={{minWidth: 200}} className='confirm-btn' onClick={handleSubmit}
+                                    variant="contained" color="primary">
                                 Confirm
                             </Button>
                             :
@@ -230,7 +237,7 @@ const ExpertDetails = () => {
                 </div>
                 <div className="col-md-1"></div>
             </div>
-            <ToastContainer />
+            <ToastContainer/>
         </div>
     )
 }
