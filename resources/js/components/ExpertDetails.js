@@ -35,34 +35,23 @@ const useStyles = makeStyles((theme) => ({
 const ExpertDetails = () => {
     const classes = useStyles();
     let history = useHistory();
-    // const getTimeSlot = (start, end) => {
-    //     const date = new Date(`1 Apr, 2020`)
-    //     const startDate = `1 Apr, 2020 ${start}`
-    //     const endDate = `1 Apr, 2020 ${end}`
-    //     const startDateObj = new Date(startDate)
-    //     const endDateObj = new Date(endDate);
-    //     if (startDateObj > endDateObj)
-    //         startDateObj.setDate(date.getDate() + 1)
-    //     const milliseconds = Math.abs(endDateObj - startDateObj);
-    //     const hours = milliseconds / 36e5;
-    //     let times = []
-    //     let startHour = startDateObj.getHours()
-    //     for (let i = 0; i <= (hours / 2) + 2; i++) {
-    //         times.push({ value: `from ${startHour} to ${++startHour}`, id: i })
-    //     }
-    //     setTimeSlot(times)
-    // }
-
+    let token = localStorage.getItem('token');
+    let bearer = `Bearer ${token}`
+    let config = {
+        headers: {
+            Authorization: bearer
+        }
+    }
     const { user, addUser } = useContext(UserContext)
     let { id } = useParams()
     let { experts } = useContext(ExpertContext)
     const [currentExpert, setCurrentExpert] = useState({})
     const [name, setName] = useState('')
-    const [sessionTime, setSessionTime] = useState('0')
+    const [duration, setDuration] = useState('15')
     const [timeSlot, setTimeSlot] = useState('0')
     const [sessionDate, setSessionDate] = useState(new Date())
     const [error, setError] = useState({})
-    // const [timeSlot, setTimeSlot] = useState([])
+    const [loading, setLoading] = useState(false)
 
 
     const splitTimeZone = (str) => {
@@ -71,40 +60,62 @@ const ExpertDetails = () => {
         else
             return str
     }
+
+    const changeDuration = async (e) => {
+        setLoading(true)
+        setDuration(e.target.value)
+        let res = await axios.post('/api/update-time-slot', { id: currentExpert.id, duration: e.target.value })
+        setCurrentExpert(res.data)
+        setLoading(false)
+
+    }
+
+    const checkIfDateAvilable = async (e) => {
+        // setLoading(true)
+        setTimeSlot(e.target.value)
+        let res = await axios.post('/api/apointment-avilable', 
+        { id: currentExpert.id,
+            date:sessionDate,
+            time_slot: e.target.value }, config)
+        console.log(res.data)
+        if(res.data > 0){
+            setTimeSlot('')
+            toast.error('this date is reserved, pick another one', {
+                position: toast.POSITION.TOP_RIGHT
+            })
+        }
+
+        // setLoading(false)
+
+    }
+
     useEffect(() => {
         let expert = experts.filter(ex => ex.id == id)[0]
-        // console.log(expert.time_slot)
         setCurrentExpert(expert)
         if (user != null && user.auth) {
             setName(user.info.name)
         }
-        // getTimeSlot(expert.expert_start_time, expert.expert_end_time)
     }, [])
     const handleSubmit = async () => {
 
-        if (name.length <= 0 || sessionTime == '0') {
-            setError({ ...error, sessionTime: 'Required' })
+        if (name.length <= 0 || duration == '0') {
+            setError({ ...error, duration: 'Required' })
             toast.error('All information are required', {
                 position: toast.POSITION.TOP_RIGHT
             })
             return
         }
-        let token = localStorage.getItem('token');
-        let bearer = `Bearer ${token}`
+
 
         let formData = {
             client_id: user.info.id,
             expert_id: currentExpert.id,
             begin: sessionDate,
-            duration: sessionTime,
-            timeSlot:timeSlot
+            duration: duration,
+            time_slot: timeSlot
         }
         console.log(formData)
-        let config = {
-            headers: {
-                Authorization: bearer
-            }
-        }
+
 
         try {
             let result = await axios.post('/api/appointment', formData, config)
@@ -119,6 +130,9 @@ const ExpertDetails = () => {
     }
     return (
         <div className='container'>
+            <div style={{ visibility: loading ? 'visible' : 'hidden' }} className="loading">
+                <h2 className='text-white'><div className="lds-dual-ring"></div></h2>
+            </div>
             <div className="row">
                 <div className="col-md-3 white-container">
                     <div className="profile">
@@ -155,14 +169,13 @@ const ExpertDetails = () => {
                                     <InputLabel htmlFor="duration">Duration</InputLabel>
                                     <Select
                                         native
-                                        value={sessionTime}
-                                        onChange={(e) => setSessionTime(e.target.value)}
+                                        value={duration}
+                                        onChange={changeDuration}
                                         inputProps={{
                                             name: 'Session duration',
                                             id: 'duration',
                                         }}
                                     >
-                                        <option aria-label="None" value="" />
                                         <option value={15}>15 minuts</option>
                                         <option value={30}>30 minuts</option>
                                         <option value={45}>45 minuts</option>
@@ -180,7 +193,7 @@ const ExpertDetails = () => {
                                 <Select
                                     native
                                     value={timeSlot}
-                                    onChange={(e) => setTimeSlot(e.target.value)}
+                                    onChange={checkIfDateAvilable}
                                     inputProps={{
                                         name: 'Time Slot',
                                         id: 'Time',
@@ -188,8 +201,8 @@ const ExpertDetails = () => {
                                 >
                                     <option aria-label="None" value="" />
                                     {currentExpert.time_slot && currentExpert.time_slot.map((time, index) => {
-                                        if (index == currentExpert.time_slot.length-1) return
-                                        return <option key={index} value={'from '+ time +' to '+ currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
+                                        if (index == currentExpert.time_slot.length - 1) return
+                                        return <option key={index} value={'from ' + time + ' to ' + currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
                                     })}
                                 </Select>
                             </FormControl>

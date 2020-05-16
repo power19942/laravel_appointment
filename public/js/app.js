@@ -32403,7 +32403,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".white-container {\r\n    background-color: white;\r\n    padding: 20px;\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.login-card {\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.main-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n}\r\n\r\n.profile {}\r\n\r\n.profile-img {\r\n    width: 150px;\r\n    height: 150px;\r\n    border-radius: 50%;\r\n    margin-bottom: 30px;\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.img-container {\r\n    display: flex;\r\n    justify-content: center;\r\n}\r\n\r\n.confirm-btn,\r\n.login-danger {\r\n    margin-top: 50px !important;\r\n}\r\n\r\n.appointments-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n\r\n/*override material ui*/\r\n\r\na.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit:hover,\r\na.MuiTypography-root.makeStyles-title-3.MuiTypography-h6:hover {\r\n    color: white;\r\n}\r\n\r\na {\r\n    text-decoration: none !important;\r\n}\r\n\r\n\r\n/*override bootstrap*/\r\n\r\ninput {\r\n    border-radius: 0 !important;\r\n}\r\n\r\n.navbar {\r\n    height: 60px;\r\n}", ""]);
+exports.push([module.i, ".loading {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    background-color: rgb(55, 64, 116);\r\n    z-index: 99999;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.white-container {\r\n    background-color: white;\r\n    padding: 20px;\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.login-card {\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.main-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n}\r\n\r\n.profile {}\r\n\r\n.profile-img {\r\n    width: 150px;\r\n    height: 150px;\r\n    border-radius: 50%;\r\n    margin-bottom: 30px;\r\n    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.img-container {\r\n    display: flex;\r\n    justify-content: center;\r\n}\r\n\r\n.confirm-btn,\r\n.login-danger {\r\n    margin-top: 50px !important;\r\n}\r\n\r\n.appointments-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n\r\n/*override material ui*/\r\n\r\na.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit:hover,\r\na.MuiTypography-root.makeStyles-title-3.MuiTypography-h6:hover {\r\n    color: white;\r\n}\r\n\r\na {\r\n    text-decoration: none !important;\r\n}\r\n\r\n\r\n/*override bootstrap*/\r\n\r\ninput {\r\n    border-radius: 0 !important;\r\n}\r\n\r\n.navbar {\r\n    height: 60px;\r\n}\r\n\r\n\r\n/*spinner*/\r\n\r\n.lds-dual-ring {\r\n    display: inline-block;\r\n    width: 80px;\r\n    height: 80px;\r\n}\r\n\r\n.lds-dual-ring:after {\r\n    content: \" \";\r\n    display: block;\r\n    width: 64px;\r\n    height: 64px;\r\n    margin: 8px;\r\n    border-radius: 50%;\r\n    border: 6px solid #fff;\r\n    border-color: #fff transparent #fff transparent;\r\n    -webkit-animation: lds-dual-ring 1.2s linear infinite;\r\n            animation: lds-dual-ring 1.2s linear infinite;\r\n}\r\n\r\n@-webkit-keyframes lds-dual-ring {\r\n    0% {\r\n        transform: rotate(0deg);\r\n    }\r\n    100% {\r\n        transform: rotate(360deg);\r\n    }\r\n}\r\n\r\n@keyframes lds-dual-ring {\r\n    0% {\r\n        transform: rotate(0deg);\r\n    }\r\n    100% {\r\n        transform: rotate(360deg);\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -111346,23 +111346,14 @@ var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_14__["m
 
 var ExpertDetails = function ExpertDetails() {
   var classes = useStyles();
-  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useHistory"])(); // const getTimeSlot = (start, end) => {
-  //     const date = new Date(`1 Apr, 2020`)
-  //     const startDate = `1 Apr, 2020 ${start}`
-  //     const endDate = `1 Apr, 2020 ${end}`
-  //     const startDateObj = new Date(startDate)
-  //     const endDateObj = new Date(endDate);
-  //     if (startDateObj > endDateObj)
-  //         startDateObj.setDate(date.getDate() + 1)
-  //     const milliseconds = Math.abs(endDateObj - startDateObj);
-  //     const hours = milliseconds / 36e5;
-  //     let times = []
-  //     let startHour = startDateObj.getHours()
-  //     for (let i = 0; i <= (hours / 2) + 2; i++) {
-  //         times.push({ value: `from ${startHour} to ${++startHour}`, id: i })
-  //     }
-  //     setTimeSlot(times)
-  // }
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useHistory"])();
+  var token = localStorage.getItem('token');
+  var bearer = "Bearer ".concat(token);
+  var config = {
+    headers: {
+      Authorization: bearer
+    }
+  };
 
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_context_UserContext__WEBPACK_IMPORTED_MODULE_5__["UserContext"]),
       user = _useContext.user,
@@ -111384,10 +111375,10 @@ var ExpertDetails = function ExpertDetails() {
       name = _useState4[0],
       setName = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('0'),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('15'),
       _useState6 = _slicedToArray(_useState5, 2),
-      sessionTime = _useState6[0],
-      setSessionTime = _useState6[1];
+      duration = _useState6[0],
+      setDuration = _useState6[1];
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('0'),
       _useState8 = _slicedToArray(_useState7, 2),
@@ -111402,68 +111393,137 @@ var ExpertDetails = function ExpertDetails() {
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({}),
       _useState12 = _slicedToArray(_useState11, 2),
       error = _useState12[0],
-      setError = _useState12[1]; // const [timeSlot, setTimeSlot] = useState([])
+      setError = _useState12[1];
 
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      loading = _useState14[0],
+      setLoading = _useState14[1];
 
   var splitTimeZone = function splitTimeZone(str) {
     if (str.includes('/')) return 'Timezone: ' + str.split('/')[0];else return str;
   };
 
-  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    var expert = experts.filter(function (ex) {
-      return ex.id == id;
-    })[0]; // console.log(expert.time_slot)
-
-    setCurrentExpert(expert);
-
-    if (user != null && user.auth) {
-      setName(user.info.name);
-    } // getTimeSlot(expert.expert_start_time, expert.expert_end_time)
-
-  }, []);
-
-  var handleSubmit = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var token, bearer, formData, config, result;
+  var changeDuration = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+      var res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(name.length <= 0 || sessionTime == '0')) {
-                _context.next = 4;
+              setLoading(true);
+              setDuration(e.target.value);
+              _context.next = 4;
+              return axios.post('/api/update-time-slot', {
+                id: currentExpert.id,
+                duration: e.target.value
+              });
+
+            case 4:
+              res = _context.sent;
+              setCurrentExpert(res.data);
+              setLoading(false);
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function changeDuration(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  var checkIfDateAvilable = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+      var res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // setLoading(true)
+              setTimeSlot(e.target.value);
+              _context2.next = 3;
+              return axios.post('/api/apointment-avilable', {
+                id: currentExpert.id,
+                date: sessionDate,
+                time_slot: e.target.value
+              }, config);
+
+            case 3:
+              res = _context2.sent;
+              console.log(res.data);
+
+              if (res.data > 0) {
+                setTimeSlot('');
+                react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].error('this date is reserved, pick another one', {
+                  position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT
+                });
+              } // setLoading(false)
+
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function checkIfDateAvilable(_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var expert = experts.filter(function (ex) {
+      return ex.id == id;
+    })[0];
+    setCurrentExpert(expert);
+
+    if (user != null && user.auth) {
+      setName(user.info.name);
+    }
+  }, []);
+
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var formData, result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!(name.length <= 0 || duration == '0')) {
+                _context3.next = 4;
                 break;
               }
 
               setError(_objectSpread(_objectSpread({}, error), {}, {
-                sessionTime: 'Required'
+                duration: 'Required'
               }));
               react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].error('All information are required', {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT
               });
-              return _context.abrupt("return");
+              return _context3.abrupt("return");
 
             case 4:
-              token = localStorage.getItem('token');
-              bearer = "Bearer ".concat(token);
               formData = {
                 client_id: user.info.id,
                 expert_id: currentExpert.id,
                 begin: sessionDate,
-                duration: sessionTime,
-                timeSlot: timeSlot
+                duration: duration,
+                time_slot: timeSlot
               };
               console.log(formData);
-              config = {
-                headers: {
-                  Authorization: bearer
-                }
-              };
-              _context.prev = 9;
-              _context.next = 12;
+              _context3.prev = 6;
+              _context3.next = 9;
               return axios.post('/api/appointment', formData, config);
 
-            case 12:
-              result = _context.sent;
+            case 9:
+              result = _context3.sent;
               react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].success('Appointment created sucessfully', {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].POSITION.TOP_RIGHT,
                 onClick: function onClick() {
@@ -111471,30 +111531,39 @@ var ExpertDetails = function ExpertDetails() {
                 }
               });
               console.log(result.data);
-              _context.next = 20;
+              _context3.next = 17;
               break;
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](9);
-              console.dir(_context.t0);
+            case 14:
+              _context3.prev = 14;
+              _context3.t0 = _context3["catch"](6);
+              console.dir(_context3.t0);
 
-            case 20:
+            case 17:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
         }
-      }, _callee, null, [[9, 17]]);
+      }, _callee3, null, [[6, 14]]);
     }));
 
     return function handleSubmit() {
-      return _ref.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    style: {
+      visibility: loading ? 'visible' : 'hidden'
+    },
+    className: "loading"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
+    className: "text-white"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "lds-dual-ring"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "col-md-3 white-container"
@@ -111544,18 +111613,13 @@ var ExpertDetails = function ExpertDetails() {
     htmlFor: "duration"
   }, "Duration"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_13__["default"], {
     "native": true,
-    value: sessionTime,
-    onChange: function onChange(e) {
-      return setSessionTime(e.target.value);
-    },
+    value: duration,
+    onChange: changeDuration,
     inputProps: {
       name: 'Session duration',
       id: 'duration'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-    "aria-label": "None",
-    value: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: 15
   }, "15 minuts"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: 30
@@ -111576,9 +111640,7 @@ var ExpertDetails = function ExpertDetails() {
   }, "Time Slot"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_13__["default"], {
     "native": true,
     value: timeSlot,
-    onChange: function onChange(e) {
-      return setTimeSlot(e.target.value);
-    },
+    onChange: checkIfDateAvilable,
     inputProps: {
       name: 'Time Slot',
       id: 'Time'
@@ -111739,7 +111801,7 @@ var Login = function Login() {
       setLoading = _useState2[1]; //TODO: remove default value
 
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('s@s.com'),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('o@o.com'),
       _useState4 = _slicedToArray(_useState3, 2),
       email = _useState4[0],
       setEmail = _useState4[1];
@@ -112282,7 +112344,7 @@ var AppointmentCard = function AppointmentCard(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card text-white bg-success mb-3",
     style: {
-      maxWidth: '18rem'
+      width: '225px'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-header"
@@ -112292,7 +112354,7 @@ var AppointmentCard = function AppointmentCard(props) {
     className: "card-title"
   }, "Date:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "card-text"
-  }, props.appointment.begin)));
+  }, props.appointment.begin, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), props.appointment.time_slot)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (AppointmentCard);
@@ -112322,12 +112384,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var AppointmentList = function AppointmentList() {
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_context_AppointmentContext__WEBPACK_IMPORTED_MODULE_1__["AppointmentContext"]),
-      appointments = _useContext.appointments;
+      appointments = _useContext.appointments,
+      dispatch = _useContext.dispatch;
 
   var _useContext2 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_context_UserContext__WEBPACK_IMPORTED_MODULE_3__["UserContext"]),
       user = _useContext2.user;
 
-  console.log(appointments);
+  console.log('appppppppppppppppp', appointments);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -112518,7 +112581,7 @@ var AppointmentContextProvider = function AppointmentContextProvider(props) {
     };
     axios.get('/api/appointment', config).then(function (res) {
       dispatch({
-        type: 'GET_APPOINTMENT',
+        type: 'SET_APPOINTMENT',
         appointments: res.data
       });
       localStorage.setItem('appointments', JSON.stringify(res.data));
@@ -112568,15 +112631,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var ExpertContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])();
 
 var ExpertContextProvider = function ExpertContextProvider(props) {
-  // const [experts,setExperts] = useState([]/*,()=>{
-  // console.log('set callback')
-  // const localData = localStorage.getItem('experts');
-  // return localData ? JSON.parse(localData) : [];
-  // }*/)
-  var _useReducer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useReducer"])(_reducers_expertsReducer__WEBPACK_IMPORTED_MODULE_1__["expertsReducer"], {}, function () {
-    var localData = localStorage.getItem('experts');
-    return localData ? JSON.parse(localData) : {};
-  }),
+  var _useReducer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useReducer"])(_reducers_expertsReducer__WEBPACK_IMPORTED_MODULE_1__["expertsReducer"], {}
+  /*, ()=>{
+  const localData = localStorage.getItem('experts');
+  return localData ? JSON.parse(localData) : {};
+  }*/
+  ),
       _useReducer2 = _slicedToArray(_useReducer, 2),
       experts = _useReducer2[0],
       dispatch = _useReducer2[1];
@@ -112592,8 +112652,7 @@ var ExpertContextProvider = function ExpertContextProvider(props) {
         type: 'SET_EXPERTS',
         experts: res.data
       }); // debugger
-
-      localStorage.setItem('experts', JSON.stringify(res.data));
+      // localStorage.setItem('experts', JSON.stringify(res.data));
     });
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ExpertContext.Provider, {
@@ -112678,22 +112737,10 @@ var UserContextProvider = function UserContextProvider(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appointmentReducer", function() { return appointmentReducer; });
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 var appointmentReducer = function appointmentReducer(state, action) {
   switch (action.type) {
     case 'GET_APPOINTMENT':
-      return _toConsumableArray(action.appointments);
+      return state;
 
     case 'SET_APPOINTMENT':
       console.log('SET_APPOINTMENT', state);
@@ -112722,7 +112769,6 @@ var expertsReducer = function expertsReducer(state, action) {
       return state;
 
     case 'SET_EXPERTS':
-      console.log('set', state);
       return action.experts;
 
     default:

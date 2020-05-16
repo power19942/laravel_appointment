@@ -9,7 +9,7 @@ const Login = () => {
     let history = useHistory();
     const [loading, setLoading] = useState(false)
     //TODO: remove default value
-    const [email, setEmail] = useState('s@s.com')
+    const [email, setEmail] = useState('o@o.com')
     const [password, setPassword] = useState('11111111')
     const [rememberMe, setRememberMe] = useState(false)
 

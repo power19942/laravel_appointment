@@ -18,15 +18,27 @@ class ExpertController extends Controller
     {
         $userLocationInfo = geoip(request()->ip());
         $timezone = $userLocationInfo['timezone'];
-        error_log($timezone);
         $experts = User::expert()->with('expertAppointments')->get();
-        $experts->map(function($a) use($timezone){
-            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time,$timezone);
-            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time,$timezone);
-            $a->time_slot = getTimeSlot($a->expert_start_time,$a->expert_end_time);
+        $experts->map(function ($a) use ($timezone) {
+            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
+            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+            $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, '15');
             return $a;
         });
         return $experts;
+    }
+
+    public function updateTimeSlot(Request $request)
+    {
+        $userLocationInfo = geoip(request()->ip());
+        $timezone = $userLocationInfo['timezone'];
+        $experts = User::all()->where('id', $request->id);
+        return $experts->map(function ($a) use ($timezone,$request) {
+            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
+            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+            $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, $request->duration);
+            return $a;
+        })->first();;
     }
 
     /**

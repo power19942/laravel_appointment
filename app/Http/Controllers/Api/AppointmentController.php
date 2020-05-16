@@ -24,11 +24,21 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        // return request()->user()->userAppointments->load('appointmentUser');
-        // // return Appointment::
-        $app = Appointment::all()->where('client_id', request()->user()->id)
-            ->load('appointmentExpert');
+        $app = Appointment::with('appointmentExpert')->where('client_id', request()->user()->id)
+            ->get()
+            ->map(function ($a) {
+                $a->appointmentExpert = $a->appointmentExpert->name;
+                return $a;
+            });
         return $app;
+    }
+
+    public  function checkIfAvilable(Request $request)
+    {
+        $appointments = Appointment::all()->where('expert_id', $request->id)
+            ->where('begin', $request->date)
+            ->where('time_slot', $request->time_slot);
+        return $appointments->count();
     }
 
     /**
@@ -40,15 +50,10 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $expert = User::find($request->expert_id);
-        $userTime = convertDateToAnotherTimeZone(User::find($request->expert_id)->expert_start_time, $expert->timezone);
-        // $userTime= convertDateToAnotherTimeZone(User::find($request->expert_id)->expert_start_time,$request->user()->timezone);
-        error_log($userTime->format('h:i a'));
-        // error_log((new DateTime(User::find($request->expert_id)->expert_start_time))->format('h:i'));
-        // error_log((new DateTime($request->begin))->format('h:i'));
-        // return;
         $appointment = Appointment::create([
             'client_id' => $request->client_id,
             'expert_id' => $request->expert_id,
+            'time_slot' => $request->time_slot,
             'begin' => $request->begin,
             'end' => ' $request->begin',
             'duration' => '$request->duration'

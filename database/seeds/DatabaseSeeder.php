@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'isExpert' => true,
             'country' => 'Anabar',
             'timezone' => 'Pacific/Auckland',
-            'expert_start_time' => new DateTime(now()->format('yy-m-d') . ' 6 pm', new DateTimeZone('Pacific/Auckland')),
+            'expert_start_time' => new DateTime(now()->format('yy-m-d') . ' 6 am', new DateTimeZone('Pacific/Auckland')),
             'expert_end_time' => new DateTime(now()->format('yy-m-d') . ' 5 pm', new DateTimeZone('Pacific/Auckland')),
         ]);
         factory(User::class)->create([

@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState } from 'react';
 import { AppointmentContext } from '../../context/AppointmentContext';
 import AppointmentCard from './AppointmentCard';
 import { UserContext } from './../../context/UserContext';
 import { Link } from 'react-router-dom';
 
 const AppointmentList = () => {
-    const { appointments } = useContext(AppointmentContext)
+    const { appointments,dispatch } = useContext(AppointmentContext)
     const { user } = useContext(UserContext)
-    console.log(appointments)
+    console.log('appppppppppppppppp',appointments)
     return (
         <div className='row'>
-            {/* <div className="col-md-2"></div> */}
             <div className="col-md-12 white-container">
                 <h1 className='mb-5'>My appointments</h1>
                 <div className="appointments-container">
@@ -25,7 +24,6 @@ const AppointmentList = () => {
                     }
                 </div>
             </div>
-            {/* <div className="col-md-2"></div> */}
 
         </div>
     );

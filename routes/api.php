@@ -23,3 +23,5 @@ Route::post('register','Api\\AuthController@register');
 // Route::get('experts','Api\\ExpertController@index');
 Route::apiResource('experts','Api\\ExpertController');
 Route::apiResource('appointment','Api\AppointmentController');
+Route::post('update-time-slot','Api\\ExpertController@updateTimeSlot');
+Route::post('apointment-avilable','Api\\AppointmentController@checkIfAvilable');

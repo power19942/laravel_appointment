@@ -35,7 +35,7 @@ const AppointmentContextProvider = (props) => {
             }
         }
         axios.get('/api/appointment', config).then(res => {
-            dispatch({ type: 'GET_APPOINTMENT', appointments: res.data })
+            dispatch({ type: 'SET_APPOINTMENT', appointments: res.data })
             localStorage.setItem('appointments', JSON.stringify(res.data));
         }).catch(_ => {
             logout()
