@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,16 +17,22 @@ class ExpertController extends Controller
      */
     public function index()
     {
-        $userLocationInfo = geoip(request()->ip());
-        $timezone = $userLocationInfo['timezone'];
-        $experts = User::expert()->with('expertAppointments')->get();
-        $experts->map(function ($a) use ($timezone) {
-            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
-            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
-            $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, '15');
-            return $a;
-        });
-        return $experts;
+        try{
+            $userLocationInfo = geoip(request()->ip());
+            $timezone = $userLocationInfo['timezone'];
+            $experts = User::expert()->with('expertAppointments')->get();
+            $experts->map(function ($a) use ($timezone) {
+                $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
+                $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+                $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, '15');
+                return $a;
+            });
+            return $experts;
+        }catch(\Exception $e){
+            return response()->json([
+                'error'=>$e->getMessage()
+            ]);
+        }
     }
 
     public function updateTimeSlot(Request $request)

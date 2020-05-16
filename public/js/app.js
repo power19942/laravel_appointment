@@ -112632,6 +112632,8 @@ var ExpertContextProvider = function ExpertContextProvider(props) {
         experts: res.data
       }); // debugger
       // localStorage.setItem('experts', JSON.stringify(res.data));
+    })["catch"](function (err) {
+      console.dir(err);
     });
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ExpertContext.Provider, {

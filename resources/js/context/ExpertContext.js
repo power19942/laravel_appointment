@@ -19,6 +19,8 @@ const ExpertContextProvider = (props)=>{
             dispatch({type:'SET_EXPERTS',experts:res.data})
             // debugger
             // localStorage.setItem('experts', JSON.stringify(res.data));
+        }).catch(err=>{
+            console.dir(err)
         })
     },[])
 

@@ -20,9 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('time_slot');
             $table->string('duration');
             $table->Integer('client_id');
-//           $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->Integer('expert_id');
-//            $table->foreign('expert_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
