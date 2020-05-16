@@ -111389,7 +111389,11 @@ var ExpertDetails = function ExpertDetails() {
       setLoading = _useState12[1];
 
   var splitTimeZone = function splitTimeZone(str) {
-    if (str.includes('/')) return 'Timezone: ' + str.split('/')[0];else return str;
+    try {
+      if (str.includes('/')) return 'Timezone: ' + str.split('/')[0];else return str;
+    } catch (e) {
+      return '';
+    }
   };
 
   var changeDuration = /*#__PURE__*/function () {

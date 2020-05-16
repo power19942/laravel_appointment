@@ -54,10 +54,14 @@ const ExpertDetails = () => {
 
 
     const splitTimeZone = (str) => {
-        if (str.includes('/'))
-            return 'Timezone: ' + str.split('/')[0]
-        else
-            return str
+        try {
+            if (str.includes('/'))
+                return 'Timezone: ' + str.split('/')[0]
+            else
+                return str
+        } catch (e) {
+            return ''
+        }
     }
 
     const changeDuration = async (e) => {
