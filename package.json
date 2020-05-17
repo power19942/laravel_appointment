@@ -34,6 +34,7 @@
         "@types/date-fns": "^2.6.0",
         "date-fns": "^2.13.0",
         "moment": "^2.25.3",
+        "moment-timezone": "^0.5.29",
         "react-calendar": "^3.0.1",
         "react-router-dom": "^5.2.0",
         "react-toastify": "^6.0.4"

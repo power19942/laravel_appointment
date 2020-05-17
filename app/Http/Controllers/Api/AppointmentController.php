@@ -75,13 +75,8 @@ class AppointmentController extends Controller
         try {
             $timezone = geoip($request->ip())['timezone'];
             $timeSlotSplit = explode('-', $request->time_slot);
-//            $start = convertDateToAnotherTimeZone($request->begin . ' ' . $timeSlotSplit[0], 'UTC')
-//                ->format('Y-m-d H:i:s e');
-//            $end = convertDateToAnotherTimeZone($request->begin . ' ' . $timeSlotSplit[1], 'UTC')
-//                ->format('Y-m-d H:i:s e');
             $start = $request->begin . ' ' . $timeSlotSplit[0];
             $end = $request->begin . ' ' . $timeSlotSplit[1];
-//            return [$start, $end];
             $expert = User::find($request->expert_id);
             $appointment = Appointment::create([
                 'client_id' => $request->client_id,

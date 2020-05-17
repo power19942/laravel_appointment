@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useParams, Link, useHistory} from 'react-router-dom'
 import {ExpertContext} from "../context/ExpertContext";
-import 'react-calendar/dist/Calendar.css';
+import momentTZ from 'moment-timezone';
 import {UserContext} from './../context/UserContext';
 import {toast, ToastContainer} from 'react-toastify'
 
@@ -51,6 +51,9 @@ const ExpertDetails = () => {
     const [timeSlot, setTimeSlot] = useState('')
     const [sessionDate, setSessionDate] = useState(new Date())
     const [loading, setLoading] = useState(false)
+    const [timezone, setTimezone] = useState('')
+    const [startTime, setStartTime] = useState('')
+    const [endTime, setEndTime] = useState('')
 
 
     const splitTimeZone = (str) => {
@@ -64,10 +67,34 @@ const ExpertDetails = () => {
         }
     }
 
+    const changeTimeZone = async (e) => {
+        setLoading(true)
+        try {
+            let timezone = e.target.value
+            let res = await axios.post('/api/change-time-zone', {
+                timezone: timezone,
+                id: currentExpert.id,
+                duration: duration
+            })
+            setTimezone(timezone)
+            setCurrentExpert(res.data)
+            setStartTime(res.data.expert_start_time)
+            setEndTime(res.data.expert_end_time)
+        } catch (e) {
+            console.dir(e)
+        }
+        setLoading(false)
+
+    }
     const changeDuration = async (e) => {
         setLoading(true)
         setDuration(e.target.value)
-        let res = await axios.post('/api/update-time-slot', {id: currentExpert.id, duration: e.target.value})
+        let res = await axios.post('/api/update-time-slot',
+            {
+                id: currentExpert.id,
+                duration: e.target.value,
+                timezone:timezone
+            })
         setCurrentExpert(res.data)
         setLoading(false)
 
@@ -77,7 +104,7 @@ const ExpertDetails = () => {
         setTimeSlot(e.target.value)
         if (e.target.value == '') return
         setLoading(true)
-        try{
+        try {
             let res = await axios.post('/api/apointment-avilable',
                 {
                     id: currentExpert.id,
@@ -91,7 +118,7 @@ const ExpertDetails = () => {
                     position: toast.POSITION.TOP_RIGHT
                 })
             }
-        }catch (e) {
+        } catch (e) {
 
         }
 
@@ -100,8 +127,11 @@ const ExpertDetails = () => {
     }
 
     useEffect(() => {
+        setTimezone(user.info.timezone)
         let expert = experts.filter(ex => ex.id == id)[0]
         setCurrentExpert(expert)
+        setStartTime(expert.expert_start_time)
+        setEndTime(expert.expert_end_time)
         if (user != null && user.auth) {
             setName(user.info.name)
         }
@@ -123,7 +153,9 @@ const ExpertDetails = () => {
 
             try {
                 let result = await axios.post('/api/appointment', formData, config)
-                toast.success('Appointment created sucessfully', {
+                toast.success(`Appointment created successfully on \n
+                    ${sessionDate.toDateString()} from ${timeSlot}
+                `, {
                     position: toast.POSITION.TOP_RIGHT,
                     onClick: () => history.push('/appointments')
                 })
@@ -157,11 +189,12 @@ const ExpertDetails = () => {
                     <div className="white-container main-content">
                         <h2>Register new appointmen</h2>
                         <Chip
-                            label={'Avilable time: ' + currentExpert.expert_start_time + '   To   ' + currentExpert.expert_end_time}
+                            label={'Avilable time: ' + startTime + '   To   ' + endTime}
                             color="secondary"/>
-                        <p>{user.info && splitTimeZone(user.info.timezone)}</p>
+                        <p>{timezone}</p>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
+
 
                                 <KeyboardDatePicker
                                     margin="normal"
@@ -174,7 +207,7 @@ const ExpertDetails = () => {
                                         'aria-label': 'change date',
                                     }}
                                 />
-                                <FormControl style={{minWidth: 250}} className={classes.formControl}>
+                                <FormControl style={{minWidth: 250, marginTop: '13px'}} className={classes.formControl}>
                                     <InputLabel htmlFor="duration">Duration</InputLabel>
                                     <Select
                                         native
@@ -218,6 +251,26 @@ const ExpertDetails = () => {
                             </FormControl>
 
                             <FormControl style={{minWidth: 250}} className={classes.formControl}>
+                                <InputLabel htmlFor="timezones">Timezone</InputLabel>
+                                <Select
+                                    native
+                                    value={timezone}
+                                    onChange={changeTimeZone}
+                                    inputProps={{
+                                        name: '',
+                                        id: 'Timezone',
+                                    }}
+                                >
+                                    <option aria-label="None" value=""/>
+                                    {momentTZ.tz.names().map((time, index) => {
+                                        return <option key={index}
+                                                       value={time}>{time}</option>
+                                    })}
+                                </Select>
+                            </FormControl>
+
+
+                            <FormControl style={{minWidth: 250, marginTop: '20px'}} className={classes.formControl}>
                                 <TextField value={name}
                                            onChange={val => setName(val.target.value)} disabled={!user.auth}
                                            id="standard-basic" label="Name"/>
