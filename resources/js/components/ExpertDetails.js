@@ -245,7 +245,7 @@ const ExpertDetails = () => {
                                     {currentExpert.time_slot && currentExpert.time_slot.map((time, index) => {
                                         if (index == currentExpert.time_slot.length - 1) return
                                         return <option key={index}
-                                                       value={time + ' - ' + currentExpert.time_slot[index + 1]}>from {time} to {currentExpert.time_slot[index + 1]}</option>
+                                                       value={index}>from {time} to {currentExpert.time_slot[index + 1]}</option>
                                     })}
                                 </Select>
                             </FormControl>
