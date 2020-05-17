@@ -12,7 +12,6 @@ const Register = () => {
     const [email, setEmail] = useState('o@o.com')
     const [password, setPassword] = useState('11111111')
     const [passwordConfirm, setPasswordConfirm] = useState('11111111')
-    const [rememberMe, setRememberMe] = useState(false)
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -42,6 +41,11 @@ const Register = () => {
 
     return (
         <div className="row justify-content-center">
+            <div style={{visibility: loading ? 'visible' : 'hidden'}} className="loading">
+                <h2 className='text-white'>
+                    <div className="lds-dual-ring"></div>
+                </h2>
+            </div>
             <div className="col-md-8">
                 <div className="card login-card">
                     <div className="card-header">Register</div>
@@ -98,19 +102,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className="form-group row">
-                                <div className="col-md-6 offset-md-4">
-                                    <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" name="remember"
-                                            id="remember" value={rememberMe}
-                                            onChange={(e) => setRememberMe(!rememberMe)} />
-
-                                        <label className="form-check-label" htmlFor="remember">
-                                            Remember Me
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div className="form-group row mb-0">
                                 <div className="col-md-8 offset-md-4">
