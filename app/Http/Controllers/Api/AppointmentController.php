@@ -28,7 +28,13 @@ class AppointmentController extends Controller
         $app = Appointment::with('appointmentExpert')->where('client_id', request()->user()->id)
             ->get()
             ->map(function ($a) {
+                $start = $a->appointmentExpert->expert_start_time;
+                $end = $a->appointmentExpert->expert_end_time;
                 $a->appointmentExpert = $a->appointmentExpert->name;
+                $time_slot_index = $a->time_slot;
+                $time_slot = getTimeSlot($start, $end, $a->duration);
+                dd($time_slot);
+                $a->time_slot = $time_slot[$time_slot_index]. ' - '.$time_slot[$time_slot_index+1];
                 return $a;
             });
         return $app;
@@ -73,7 +79,7 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         try {
-            $timezone = geoip($request->ip())['timezone'];
+//            $timezone = geoip($request->ip())['timezone'];
             $timeSlotSplit = explode('-', $request->time_slot);
             $start = $request->begin . ' ' . $timeSlotSplit[0];
             $end = $request->begin . ' ' . $timeSlotSplit[1];
