@@ -55,6 +55,9 @@ const ExpertDetails = () => {
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
 
+    const [originalStartTime, setOriginalStartTime] = useState('')
+    const [originalEndTime, setOriginalEndTime] = useState('')
+
 
     const splitTimeZone = (str) => {
         try {
@@ -129,13 +132,18 @@ const ExpertDetails = () => {
     useEffect(() => {
         setTimezone(user.info.timezone)
         let expert = experts.filter(ex => ex.id == id)[0]
+        console.log(expert)
         setCurrentExpert(expert)
         setStartTime(expert.expert_start_time)
         setEndTime(expert.expert_end_time)
+        setOriginalStartTime(expert.expert_start_time)
+        setOriginalEndTime(expert.expert_end_time)
+
         if (user != null && user.auth) {
             setName(user.info.name)
         }
     }, [])
+
     const handleSubmit = async () => {
         if (name.length <= 0 || duration == '0' || timeSlot == '') {
             toast.error('All information are required', {
@@ -147,15 +155,16 @@ const ExpertDetails = () => {
                 client_id: user.info.id,
                 expert_id: currentExpert.id,
                 begin: sessionDate.toDateString(),
+                start:originalStartTime,
+                end:originalEndTime,
                 duration: duration,
-                time_slot: timeSlot
+                time_slot_index: timeSlot
             }
 
             try {
                 let result = await axios.post('/api/appointment', formData, config)
                 toast.success(`Appointment created successfully on \n
-                    ${sessionDate.toDateString()} from ${timeSlot}
-                `, {
+                    ${sessionDate.toDateString()} from ${result.data}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     onClick: () => history.push('/appointments')
                 })

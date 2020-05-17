@@ -33,7 +33,7 @@ class AppointmentController extends Controller
                 $a->appointmentExpert = $a->appointmentExpert->name;
                 $time_slot_index = $a->time_slot;
                 $time_slot = getTimeSlot($start, $end, $a->duration);
-                dd($time_slot);
+//                dd($time_slot);
                 $a->time_slot = $time_slot[$time_slot_index]. ' - '.$time_slot[$time_slot_index+1];
                 return $a;
             });
@@ -80,19 +80,27 @@ class AppointmentController extends Controller
     {
         try {
 //            $timezone = geoip($request->ip())['timezone'];
-            $timeSlotSplit = explode('-', $request->time_slot);
-            $start = $request->begin . ' ' . $timeSlotSplit[0];
-            $end = $request->begin . ' ' . $timeSlotSplit[1];
-            $expert = User::find($request->expert_id);
+//            $timeSlotSplit = explode('-', $request->time_slot);
+//            $start = $request->begin . ' ' . $timeSlotSplit[0];
+//            $end = $request->begin . ' ' . $timeSlotSplit[1];
+
+            $start = $request->begin . ' ' . $request->start;
+            $end = $request->begin . ' ' . $request->end;
+            $time_slots = getTimeSlot($start, $end, $request->duration);
+//            dd([$start,$end,$time_slots]);
+//            $expert = User::find($request->expert_id);
+            $time_slot_index = $request->time_slot_index;
+            $time_slot = $time_slots[$time_slot_index] .' - '.$time_slots[$time_slot_index+1];
             $appointment = Appointment::create([
                 'client_id' => $request->client_id,
                 'expert_id' => $request->expert_id,
-                'time_slot' => $request->time_slot,
+                'time_slot' => $time_slot,
                 'begin' => $start,
                 'end' => $end,
                 'duration' => $request->duration
             ]);
-            return $appointment;
+//            return $appointment;
+            return $time_slot;
         } catch (\Exception $e) {
             return $e->getMessage();
         }
