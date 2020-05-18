@@ -5,7 +5,7 @@ import { UserContext } from './../../context/UserContext';
 import { Link } from 'react-router-dom';
 
 const AppointmentList = () => {
-    const { appointments,dispatch } = useContext(AppointmentContext)
+    const { appointments } = useContext(AppointmentContext)
     const { user } = useContext(UserContext)
     return (
         <div className='row'>

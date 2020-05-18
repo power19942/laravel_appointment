@@ -57,20 +57,14 @@ class ExpertController extends Controller
 
     public function updateTimeSlot(Request $request)
     {
-        $userLocationInfo = geoip(request()->ip());
-//        dd($userLocationInfo);
-//        dd($request->user());
-        $timezone = $request->timezone;//$userLocationInfo['timezone'];
+
+        $timezone = $request->timezone;;
         $experts = User::all()->where('id', $request->id);
         return $experts->map(function ($a) use ($timezone, $request) {
-//            if ($timezone != $request->user()->timezone) {
-//                dd(['not e']);
-                $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
-                $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
-//            } else {
-                $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time);
-                $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time);
-//            }
+            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
+            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time);
+            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time);
             $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, $request->duration);
             return $a;
         })->first();;

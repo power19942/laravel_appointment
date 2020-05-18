@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Navbar = () => {
     const classes = useStyles();
-    const { user, addUser/*, authenticated,setAuthenticated*/ } = useContext(UserContext)
+    const { user, addUser } = useContext(UserContext)
     let userName = user.auth ? user != null ? user.info.name : 'Welcome' : 'Welcome'
 
     let history = useHistory()
@@ -85,15 +85,15 @@ const Navbar = () => {
 
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                        
-                                       
+
+
 
 
                                             <Link to='/appointments' className="dropdown-item" >
                                                 My appointments
                                             </Link>
 
-                                        
+
 
 
 

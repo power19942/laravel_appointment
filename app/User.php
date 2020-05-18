@@ -39,16 +39,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // public function getExpertStartTimeAttribute($value){
-    //     // return convertTimeStampToTime($value);
-    //     return getTimeFromTimeZone($value,'America/New_York');
-    // }
-
-    // public function getExpertEndTimeAttribute($value){
-    //     return getTimeFromTimeZone($value,'America/New_York');
-
-    // }
-
     public function scopeExpert($query)
     {
         return $query->where('isExpert', 1);

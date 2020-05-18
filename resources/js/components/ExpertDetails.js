@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExpertDetails = () => {
-    // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const classes = useStyles();
     let history = useHistory();
     let token = localStorage.getItem('token');
@@ -137,7 +136,8 @@ const ExpertDetails = () => {
     }
 
     useEffect(() => {
-        setTimezone(user.info.timezone)
+        if (user.auth)
+            setTimezone(user.info.timezone)
         let expert = experts.filter(ex => ex.id == id)[0]
         console.log(expert)
         setCurrentExpert(expert)
@@ -214,6 +214,7 @@ const ExpertDetails = () => {
 
 
                                 <KeyboardDatePicker
+                                    disabled={!user.auth}
                                     margin="normal"
                                     id="date-picker-dialog"
                                     label="Appointment Date"
@@ -227,6 +228,7 @@ const ExpertDetails = () => {
                                 <FormControl style={{minWidth: 250, marginTop: '13px'}} className={classes.formControl}>
                                     <InputLabel htmlFor="duration">Duration</InputLabel>
                                     <Select
+                                        disabled={!user.auth}
                                         native
                                         value={duration}
                                         onChange={changeDuration}
@@ -250,6 +252,7 @@ const ExpertDetails = () => {
                             <FormControl style={{minWidth: 250}} className={classes.formControl}>
                                 <InputLabel htmlFor="time">Time Slot</InputLabel>
                                 <Select
+                                    disabled={!user.auth}
                                     native
                                     value={timeSlot}
                                     onChange={checkIfDateAvilable}
@@ -270,6 +273,7 @@ const ExpertDetails = () => {
                             <FormControl style={{minWidth: 250}} className={classes.formControl}>
                                 <InputLabel htmlFor="timezones">Timezone</InputLabel>
                                 <Select
+                                    disabled={!user.auth}
                                     native
                                     value={timezone}
                                     onChange={changeTimeZone}
@@ -288,7 +292,7 @@ const ExpertDetails = () => {
 
 
                             <FormControl style={{minWidth: 250, marginTop: '20px'}} className={classes.formControl}>
-                                <TextField value={name}
+                                <TextField value={name} disabled={!user.auth}
                                            onChange={val => setName(val.target.value)} disabled={!user.auth}
                                            id="standard-basic" label="Name"/>
                             </FormControl>

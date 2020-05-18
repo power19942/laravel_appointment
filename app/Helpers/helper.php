@@ -1,10 +1,5 @@
 <?php
 
-//function convertStringToTimeStamp($time)
-//{
-//    return date("G:i", strtotime($time));
-//
-//}
 
 function requesterTimezone($ip)
 {
