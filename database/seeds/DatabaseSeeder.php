@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'o@o.com',
             'isExpert' => false,
             'country' => 'Egypt',
-            'timezone' => 'Africa/Cairo',
+            'timezone' => 'America/New_York',
 
         ]);
     }

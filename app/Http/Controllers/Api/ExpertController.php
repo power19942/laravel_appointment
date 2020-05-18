@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Cache;
 
 class ExpertController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')
+            ->only(['updateTimeSlot']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +24,7 @@ class ExpertController extends Controller
      */
     public function index()
     {
-        try{
+        try {
             $userLocationInfo = geoip(request()->ip());
             $timezone = $userLocationInfo['timezone'];
             $experts = User::expert()->with('expertAppointments')->get();
@@ -27,18 +34,20 @@ class ExpertController extends Controller
                 $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, '15');
                 return $a;
             });
+//            dd($experts[2]);
             return $experts;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                'error'=>$e->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }
 
-    public function changeTimeZone(Request $request){
+    public function changeTimeZone(Request $request)
+    {
         $timezone = $request->timezone;
         $experts = User::all()->where('id', $request->id);
-        return $experts->map(function ($a) use ($timezone,$request) {
+        return $experts->map(function ($a) use ($timezone, $request) {
             $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
             $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
             $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, $request->duration);
@@ -48,12 +57,20 @@ class ExpertController extends Controller
 
     public function updateTimeSlot(Request $request)
     {
-//        $userLocationInfo = geoip(request()->ip());
-        $timezone = $request->timezone; //$userLocationInfo['timezone'];
+        $userLocationInfo = geoip(request()->ip());
+//        dd($userLocationInfo);
+//        dd($request->user());
+        $timezone = $request->timezone;//$userLocationInfo['timezone'];
         $experts = User::all()->where('id', $request->id);
-        return $experts->map(function ($a) use ($timezone,$request) {
-            $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
-            $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+        return $experts->map(function ($a) use ($timezone, $request) {
+//            if ($timezone != $request->user()->timezone) {
+//                dd(['not e']);
+                $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time, $timezone);
+                $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time, $timezone);
+//            } else {
+                $a->expert_start_time = getTimeFromTimeZone($a->expert_start_time);
+                $a->expert_end_time = getTimeFromTimeZone($a->expert_end_time);
+//            }
             $a->time_slot = getTimeSlot($a->expert_start_time, $a->expert_end_time, $request->duration);
             return $a;
         })->first();;

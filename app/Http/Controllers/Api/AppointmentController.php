@@ -25,7 +25,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $app = Appointment::with('appointmentExpert')->where('client_id', request()->user()->id)
+        $app = Appointment::with('appointmentExpert')
+            ->where('client_id', request()->user()->id)
             ->get()
             ->map(function ($a) {
                 $start = $a->appointmentExpert->expert_start_time;
@@ -42,8 +43,15 @@ class AppointmentController extends Controller
 
     public function checkIfAvilable(Request $request)
     {
-        $timezone = geoip($request->ip())['timezone'];
-        $timeSlotSplit = explode('-', $request->time_slot);
+        $start = $request->begin . ' ' . $request->start;
+        $end = $request->begin . ' ' . $request->end;
+        $time_slots = getTimeSlot($start, $end, $request->duration);
+        $time_slot_index = $request->time_slot_index;
+        $time_slot = $time_slots[$time_slot_index] .' - '.$time_slots[$time_slot_index+1];
+
+
+//        $timezone = geoip($request->ip())['timezone'];
+        $timeSlotSplit = explode('-', $time_slot);
         $start = convertDateToAnotherTimeZone($request->begin . ' ' . $timeSlotSplit[0], 'UTC')
             ->format('Y-m-d H:i:s');
         $end = convertDateToAnotherTimeZone($request->begin . ' ' . $timeSlotSplit[1], 'UTC')
@@ -54,10 +62,42 @@ class AppointmentController extends Controller
 //            ->where('begin','<',$start)
 //            ->where('end','<=',$start);
 //        return $appointments->count();
+//        dd([$start,$end ]);
         return DB::table('appointments')
             ->where('expert_id',$request->id)
-            ->where('begin','>',$start)
-            ->where('begin','>=',$end)->get();
+            ->whereBetween('begin',[$start,$end])
+            ->whereBetween('end',[$start,$end])
+//            ->where('begin',$start)
+//            ->where('end',$end)
+//            ->orWhere(function ($query)use ($start,$end,$request){
+//                $query
+//                    ->where('expert_id',$request->id)
+//                    ->where('begin','>',$start)
+//                    ->where('begin','>=',$end);
+////                    ->where();
+//            })
+
+//            ->where('begin','>',$start)
+//            ->where('begin','>=',$end)
+
+
+//            ->orWhere(function ($query)use ($start,$end,$request){
+//                $query
+//                    ->where('expert_id',$request->id)
+//                    ->where('begin','<',$start);
+////                    ->where();
+//            })
+            ->count();
+//            ->where('begin','>=',$start)
+//            ->where('begin','>=',$end)
+//            ->orWhere(function ($query)use ($start,$end,$request){
+//                $query
+//                    ->where('expert_id',$request->id)
+//                    ->where('begin','<=',$end);
+////                    ->where();
+//            })
+//            ->get();
+//            ->where('begin','>=',$end)->get();
 //            ->orWhere(function ($query)use ($start,$end,$request){
 //                $query
 //                    ->where('expert_id',$request->id)
@@ -87,16 +127,18 @@ class AppointmentController extends Controller
             $start = $request->begin . ' ' . $request->start;
             $end = $request->begin . ' ' . $request->end;
             $time_slots = getTimeSlot($start, $end, $request->duration);
+//            dd($request->begin,$time_slots[0]);
 //            dd([$start,$end,$time_slots]);
 //            $expert = User::find($request->expert_id);
             $time_slot_index = $request->time_slot_index;
             $time_slot = $time_slots[$time_slot_index] .' - '.$time_slots[$time_slot_index+1];
+//            dd([$request->begin . ' ' . $time_slot[$time_slot_index],$request->begin . ' ' . $time_slot[$time_slot_index+1]]);
             $appointment = Appointment::create([
                 'client_id' => $request->client_id,
                 'expert_id' => $request->expert_id,
-                'time_slot' => $time_slot,
-                'begin' => $start,
-                'end' => $end,
+                'time_slot' => $time_slot_index,
+                'begin' =>  $request->begin . ' ' . $time_slots[$time_slot_index],
+                'end' => $request->begin . ' ' . $time_slots[$time_slot_index+1],
                 'duration' => $request->duration
             ]);
 //            return $appointment;

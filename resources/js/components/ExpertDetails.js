@@ -33,11 +33,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExpertDetails = () => {
+    // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const classes = useStyles();
     let history = useHistory();
     let token = localStorage.getItem('token');
     let bearer = `Bearer ${token}`
-    let config = {
+    let axiosConfig = {
         headers: {
             Authorization: bearer
         }
@@ -97,7 +98,7 @@ const ExpertDetails = () => {
                 id: currentExpert.id,
                 duration: e.target.value,
                 timezone:timezone
-            })
+            },axiosConfig)
         setCurrentExpert(res.data)
         setLoading(false)
 
@@ -113,8 +114,14 @@ const ExpertDetails = () => {
                     id: currentExpert.id,
                     date: sessionDate,
                     begin: sessionDate.toDateString(),
-                    time_slot: e.target.value
-                }, config)
+
+
+                    start:originalStartTime,
+                    end:originalEndTime,
+                    duration: duration,
+
+                    time_slot_index: e.target.value
+                }, axiosConfig)
             if (res.data > 0) {
                 setTimeSlot('')
                 toast.error('this date is reserved, pick another one', {
@@ -154,7 +161,8 @@ const ExpertDetails = () => {
             let formData = {
                 client_id: user.info.id,
                 expert_id: currentExpert.id,
-                begin: sessionDate.toDateString(),
+                begin: new Date(sessionDate.toDateString()).toDateString(),
+                full_date: sessionDate.toDateString(),
                 start:originalStartTime,
                 end:originalEndTime,
                 duration: duration,
@@ -162,7 +170,7 @@ const ExpertDetails = () => {
             }
 
             try {
-                let result = await axios.post('/api/appointment', formData, config)
+                let result = await axios.post('/api/appointment', formData, axiosConfig)
                 toast.success(`Appointment created successfully on \n
                     ${sessionDate.toDateString()} from ${result.data}`, {
                     position: toast.POSITION.TOP_RIGHT,
