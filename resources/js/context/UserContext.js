@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 import { userReducer } from './../reducers/userReducer';
+import {SET_USER} from "../types";
 export const UserContext = createContext()
 
 const UserContextProvider = (props) => {
@@ -11,7 +12,7 @@ const UserContextProvider = (props) => {
 
     const addUser = (user,auth) => {
 
-        dispatch({ type: 'SET_USER', info: user, auth: auth })
+        dispatch({ type: SET_USER, info: user, auth: auth })
     }
 
     return (

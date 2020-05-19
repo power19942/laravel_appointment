@@ -1,9 +1,10 @@
+import {GET_APPOINTMENT, SET_APPOINTMENT} from "../types";
+
 export const appointmentReducer = (state, action) => {
     switch (action.type) {
-        case 'GET_APPOINTMENT':
+        case GET_APPOINTMENT:
             return state
-        case 'SET_APPOINTMENT':
-            ('SET_APPOINTMENT', state)
+        case SET_APPOINTMENT:
             return action.appointments
 
         default:

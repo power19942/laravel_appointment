@@ -1,5 +1,6 @@
 import React, {createContext, useEffect, useReducer} from 'react'
 import { expertsReducer } from './../reducers/expertsReducer';
+import {SET_EXPERTS} from "../types";
 export const ExpertContext = createContext()
 
 const ExpertContextProvider = (props)=>{
@@ -13,7 +14,7 @@ const ExpertContextProvider = (props)=>{
         }
 
         axios.get('/api/experts').then(res=>{
-            dispatch({type:'SET_EXPERTS',experts:res.data})
+            dispatch({type:SET_EXPERTS,experts:res.data})
         }).catch(err=>{
             console.dir(err)
         })

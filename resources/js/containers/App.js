@@ -8,15 +8,15 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import ExpertList from "../components/ExpertList";
-import ExpertPage from "../components/ExpertsPage";
-import ExpertDetails from "../components/ExpertDetails";
+import ExpertList from "../components/expert/ExpertList";
+import ExpertPage from "../components/expert/ExpertsPage";
+import ExpertDetails from "../components/expert/ExpertDetails";
 import ExpertContextProvider from "../context/ExpertContext";
 import Navbar from "../components/Navbar";
-import Login from '../components/Login'
+import Login from '../components/auth/Login'
 import 'react-toastify/dist/ReactToastify.css';
 import UserContextProvider from "../context/UserContext";
-import Register from './../components/Register';
+import Register from '../components/auth/Register';
 import Appointment from './Appointment';
 
 function App() {
