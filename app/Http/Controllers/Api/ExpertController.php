@@ -25,7 +25,7 @@ class ExpertController extends Controller
     public function index()
     {
         try {
-            $userLocationInfo = geoip(request()->ip());
+            $userLocationInfo = geoip(getClientIp());
             $timezone = $userLocationInfo['timezone'];
             $experts = User::expert()->with('expertAppointments')->get();
             $experts->map(function ($a) use ($timezone) {

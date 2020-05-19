@@ -24,7 +24,7 @@ class AuthController extends Controller
                 throw new \Exception('User Not Found');
             }
             // update user timezone on login
-            $timezone = geoip($request->ip())['timezone'];
+            $timezone = geoip(getClientIp())['timezone'];
             $user->timezone=$timezone;
             $user->save();
             if (Hash::check($request['password'], $user->password)) {
@@ -58,7 +58,7 @@ class AuthController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
             ]);
-            $userLocationInfo = geoip($request->ip());
+            $userLocationInfo = geoip(getClientIp());
             $country = $userLocationInfo['country'];
             $timezone = $userLocationInfo['timezone'];
             $user = User::create([

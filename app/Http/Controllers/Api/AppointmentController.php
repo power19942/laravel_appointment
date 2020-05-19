@@ -25,7 +25,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $timezone = geoip(\request()->ip())['timezone'];
+        $timezone = geoip(getClientIp())['timezone'];
         $app = Appointment::with('appointmentExpert')
             ->where('client_id', request()->user()->id)
             ->get()
