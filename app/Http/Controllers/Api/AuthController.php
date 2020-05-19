@@ -23,6 +23,10 @@ class AuthController extends Controller
             if (is_null($user)) {
                 throw new \Exception('User Not Found');
             }
+            // update user timezone on login
+            $timezone = geoip($request->ip())['timezone'];
+            $user->timezone=$timezone;
+            $user->save();
             if (Hash::check($request['password'], $user->password)) {
                 $token = $user->createToken($request['email'])->plainTextToken;
                 return response()->json([
