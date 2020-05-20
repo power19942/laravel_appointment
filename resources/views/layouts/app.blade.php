@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.1.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.2.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -76,6 +76,6 @@
         </main>
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.1.js') }}" defer></script>
+    <script src="{{ asset('js/app.2.js') }}" defer></script>
 </body>
 </html>

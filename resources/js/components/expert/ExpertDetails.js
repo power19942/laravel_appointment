@@ -171,6 +171,7 @@ const ExpertDetails = () => {
 
             try {
                 let result = await axios.post('/api/appointment', formData, axiosConfig)
+                setTimeSlot('')
                 toast.success(`Appointment created successfully on \n
                     ${sessionDate.toDateString()} from ${result.data}`, {
                     position: toast.POSITION.TOP_RIGHT,
